@@ -1,0 +1,43 @@
+scanner_py: /opt/scanner/scanner.py
+work_dir: /work
+results_dir: /opt/results
+env_file: /opt/scanner/.env
+
+products:
+  - name: GF
+    versions:
+      - version: "1.0"
+        repos:
+          - url: https://gitlab.example.com/group/backend.git
+            branch: "1.0"
+            dir: backend
+          - url: https://gitlab.example.com/group/frontend.git
+            branch: "1.0"
+            dir: frontend
+          - url: https://gitlab.example.com/group/libs.git
+            branch: "1.0"
+            dir: libs
+      - version: "2.0"
+        repos:
+          - url: https://gitlab.example.com/group/backend.git
+            branch: "2.0"
+            dir: backend
+          - url: https://gitlab.example.com/group/frontend.git
+            branch: "2.0"
+            dir: frontend
+      - version: "3.0"
+        repos:
+          - url: https://gitlab.example.com/group/backend.git
+            branch: "3.0"
+            dir: backend
+
+  - name: dev
+    versions:
+      - version: "main"
+        repos:
+          - url: https://gitlab.example.com/group/dev-core.git
+            branch: "main"
+            dir: core
+          - url: https://gitlab.example.com/group/dev-api.git
+            branch: "main"
+            dir: api
