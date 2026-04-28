@@ -1,0 +1,6 @@
+for dir in */; do
+  echo "===== $dir ====="
+  cd "$dir" || continue
+  git submodule update --init --recursive
+  cd ..
+done
