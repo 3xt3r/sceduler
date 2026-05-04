@@ -212,6 +212,15 @@ def run_cmd(
     # If token is wrong, Git fails instead of hanging.
     env["GIT_TERMINAL_PROMPT"] = "0"
 
+    # Automatically run Git with:
+    #   GIT_SSL_NO_VERIFY=true
+    #
+    # Needed when internal GitLab uses self-signed or untrusted certificate.
+    #
+    # This also passes into scanner.py. If scanner.py runs Git internally,
+    # it will inherit this variable too.
+    env["GIT_SSL_NO_VERIFY"] = "true"
+
     try:
         result = subprocess.run(
             args,
@@ -361,7 +370,9 @@ def build_scan_workspace(
     Scan workspace is rebuilt fresh every time.
 
     Example:
-        /home/user/jobs/GF/_repos/backend  ->  /home/user/jobs/GF/sources/backend
+        /home/user/jobs/GF/_repos/backend
+        ->
+        /home/user/jobs/GF/sources/backend
 
     Returns list of skipped repos with error messages.
     """
