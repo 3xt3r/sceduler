@@ -1,1 +1,36 @@
-{"status":400,"title":"The provided JSON payload could not be mapped","detail":"Unrecognized field \"parentUUID\" (class org.dependencytrack.model.Project), not marked as ignorable (33 known properties: \"lastVulnerabilityAnalysis\", \"metrics\", \"active\", \"authors\", \"name\", \"supplier\", \"lastBomImport\", \"manufacturer\", \"swidTagId\", \"version\", \"tags\", \"versions\", \"collectionTag\", \"collectionLogic\", \"classifier\", \"lastBomImportFormat\", \"parent\", \"metadata\", \"directDependencies\", \"properties\", \"uuid\", \"publisher\", \"group\", \"author\", \"isLatest\", \"cpe\", \"accessTeams\", \"description\", \"purl\", \"children\", \"lastInheritedRiskScore\", \"externalReferences\", \"bomRef\")\n at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 95] (through reference chain: org.dependencytrack.model.Project[\"parentUUID\"])"}
+[dt] findings poll 9: count=1159, stable=0
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.168.225.95'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+[dt] findings poll 10: count=1315, stable=0
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.168.225.95'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+[dt] findings poll 11: count=1459, stable=0
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.168.225.95'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+[dt] findings poll 12: count=1582, stable=0
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.168.225.95'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+[dt] findings poll 13: count=1582, stable=0
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.168.225.95'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+[dt] findings poll 14: count=1582, stable=1
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.168.225.95'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+[dt] findings poll 15: count=1582, stable=2
+[dt] findings stabilized
+[dt] final combined SBOM uploaded to safe project: 99afd7e9-5c17-479a-818f-6b9c04d5cbe0
+[OK] report.xlsx           : /home/user/jobs/DLP/jobs/454d35bf7f6d417c87e883b45ef49bbe/sbom/report.xlsx
+[OK]   Vulnerabilities rows: 375
+[OK]   SafeVersions rows   : 1227
+[OK] final combined sbom-clean.json : /home/user/jobs/DLP/jobs/454d35bf7f6d417c87e883b45ef49bbe/sbom/sbom-clean.json
+[OK] combined copy                 : /home/user/jobs/DLP/jobs/454d35bf7f6d417c87e883b45ef49bbe/sbom/sbom-clean-combined.json
+[OK] missing versions txt          : /home/user/jobs/DLP/jobs/454d35bf7f6d417c87e883b45ef49bbe/sbom/debug/missing_versions.txt
+[OK] failed debug txt              : /home/user/jobs/DLP/jobs/454d35bf7f6d417c87e883b45ef49bbe/sbom/debug/failed_safe_versions_debug.txt
+22:07:09 [INFO] task done: Vulnerability Management
+22:07:09 [INFO] task start: Download Transitive Sources
+22:07:09 [INFO] [SKIP][maven-test] org.opencv:opencv-it:3.4.19 (ref=pkg:maven/org.opencv/opencv-it@3.4.19)
+22:07:09 [INFO] Found 1600 unique (ecosystem, name, version) entries
+22:07:09 [INFO] Will download sources for 1600 packages
+22:07:09 [INFO] === go :: github.com/burntsushi/toml :: v0.3.1 (ref=0001819b-4cbc-4905-aee9-fa408fa6630a) ===
+22:07:09 [INFO] [go] github.com/burntsushi/toml@v0.3.1 downloading https://proxy.golang.org/github.com/burntsushi/toml/@v/v0.3.1.zip
+22:07:09 [INFO] downloading https://proxy.golang.org/github.com/burntsushi/toml/@v/v0.3.1.zip
