@@ -1,4 +1,1 @@
-curl -sk -X PUT https://192.16.22.9/api/v1/project \
-  -H "X-Api-Key: YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{"name":"test [safe]","classifier":"APPLICATION","active":true,"isLatest":false,"parentUUID":"319c0a1a-5832-44d6-8725-4126efaf486d"}'
+{"status":400,"title":"The provided JSON payload could not be mapped","detail":"Unrecognized field \"parentUUID\" (class org.dependencytrack.model.Project), not marked as ignorable (33 known properties: \"lastVulnerabilityAnalysis\", \"metrics\", \"active\", \"authors\", \"name\", \"supplier\", \"lastBomImport\", \"manufacturer\", \"swidTagId\", \"version\", \"tags\", \"versions\", \"collectionTag\", \"collectionLogic\", \"classifier\", \"lastBomImportFormat\", \"parent\", \"metadata\", \"directDependencies\", \"properties\", \"uuid\", \"publisher\", \"group\", \"author\", \"isLatest\", \"cpe\", \"accessTeams\", \"description\", \"purl\", \"children\", \"lastInheritedRiskScore\", \"externalReferences\", \"bomRef\")\n at [Source: REDACTED (`StreamReadFeature.INCLUDE_SOURCE_IN_LOCATION` disabled); line: 1, column: 95] (through reference chain: org.dependencytrack.model.Project[\"parentUUID\"])"}
