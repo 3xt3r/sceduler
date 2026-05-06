@@ -1,6 +1,67 @@
-for dir in */; do
-  echo "===== $dir ====="
-  cd "$dir" || continue
-  git submodule update --init --recursive
-  cd ..
-done
+ ERROR   |     [FAIL] scanner.py: 12:24:11 [INFO] loaded .env: /home/user/oss_checks/.env
+12:24:11 [INFO] [dt] auto-ensuring orig project 'test-orig'...
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.16.22.9'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+12:24:11 [INFO] [dt] reusing existing project 'test-orig' -> 319c0a1a-5832-44d6-8725-4126efaf486d
+12:24:11 [INFO] [dt] auto-ensuring safe project 'test [safe]' (parent: 319c0a1a-5832-44d6-8725-4126efaf486d)...
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.16.22.9'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.16.22.9'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/user/oss_checks/scanner.py", line 1368, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/user/oss_checks/scanner.py", line 1357, in main
+    dt_config = build_dependency_track_config(args, root, dt_base) if dt_base is not None else None
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/oss_checks/scanner.py", line 528, in build_dependency_track_config
+    safe_uuid = dt_ensure_project(
+        dt_base,
+    ...<2 lines>...
+        parent_uuid=orig_uuid,
+    )
+  File "/home/user/oss_checks/scanner.py", line 408, in dt_ensure_project
+    return dt_create_project(dt_base, name, version, parent_uuid=parent_uuid)
+  File "/home/user/oss_checks/scanner.py", line 383, in dt_create_project
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/user/venv/lib/python3.13/site-packages/requests/models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://192.16.22.9/api/v1/project
+2026-05-06 12:24:11 | ERROR   |   could not find scanner job dir under /home/user/jobs/NDR/jobs
+2026-05-06 12:24:11 | WARNING |   could not collect results for NDR / 4.4
+2026-05-06 12:24:11 | INFO    |   cleaning sources workspace: /home/user/jobs/NDR/sources
+2026-05-06 12:24:13 | ERROR   |   [FAIL] NDR / 4.4: 12:24:11 [INFO] loaded .env: /home/user/oss_checks/.env
+12:24:11 [INFO] [dt] auto-ensuring orig project 'test-orig'...
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.16.22.9'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+12:24:11 [INFO] [dt] reusing existing project 'test-orig' -> 319c0a1a-5832-44d6-8725-4126efaf486d
+12:24:11 [INFO] [dt] auto-ensuring safe project 'test [safe]' (parent: 319c0a1a-5832-44d6-8725-4126efaf486d)...
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.16.22.9'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/home/user/venv/lib/python3.13/site-packages/urllib3/connectionpool.py:1097: InsecureRequestWarning: Unverified HTTPS request is being made to host '192.16.22.9'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Traceback (most recent call last):
+  File "/home/user/oss_checks/scanner.py", line 1368, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/user/oss_checks/scanner.py", line 1357, in main
+    dt_config = build_dependency_track_config(args, root, dt_base) if dt_base is not None else None
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/oss_checks/scanner.py", line 528, in build_dependency_track_config
+    safe_uuid = dt_ensure_project(
+        dt_base,
+    ...<2 lines>...
+        parent_uuid=orig_uuid,
+    )
+  File "/home/user/oss_checks/scanner.py", line 408, in dt_ensure_project
+    return dt_create_project(dt_base, name, version, parent_uuid=parent_uuid)
+  File "/home/user/oss_checks/scanner.py", line 383, in dt_create_project
+    resp.raise_for_status()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/user/venv/lib/python3.13/site-packages/requests/models.py", line 1028, in raise_for_status
+    raise HTTPError(http_error_msg, response=self)
+requests.exceptions.HTTPError: 400 Client Error: Bad Request for url: https://192.16.22.9/api/v1/project
+2026-05-06 12:24:13 | INFO    | run log written: /home/user/results/2026-05-06/run.log
+2026-05-06 12:24:13 | ERROR   | 1/1 scan(s) failed
