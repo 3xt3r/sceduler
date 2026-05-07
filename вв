@@ -1,10 +1,36 @@
-21:23:08 [INFO] task done: Registry Sources Scan — Root
-21:23:08 [INFO] task start: C/C++ Scan
-21:23:08 [INFO] [cplus] oss_checks_dir: /home/csecuser/oss_checks
-21:23:08 [INFO] [cplus] cplus_scanner: /home/csecuser/oss_checks/cpluschecks/scanner.py (exists=True)
-21:23:08 [INFO] [cplus] scanner: /home/csecuser/oss_checks/cpluschecks/scanner.py
-21:23:08 [INFO] [cplus] scan_root: /home/csecuser/jobs/DBF/jobs/sources/root_sources (exists=True)
-21:23:08 [INFO] [cplus] output: /home/csecuser/jobs/DBF/jobs/69df3f5af00242c89047f0817f72b2dc/sbom/cplus_sbom.json
-21:23:08 [INFO] task done: C/C++ Scan
-21:23:08 [INFO] task start: Trivy SBOM
+21:46:57 [INFO] [cplus] output file exists: True
+21:46:57 [INFO] [cplus] output file size: 18695 bytes
+21:46:57 [INFO] [cplus] found 15 C/C++ component(s)
+21:46:57 [INFO] task done: C/C++ Scan
+21:46:57 [INFO] task start: Trivy SBOM
 [INFO] removed rust vendor dirs: 0
+[INFO] renamed Cargo.lock.in files: 0
+[INFO] hidden template pom.xml files: 0
+21:46:58 [INFO] RUN trivy fs . --scanners license --format cyclonedx --output /home/csecuser/jobs/DBF/jobs/48c4cf57dd504a9f82bfeb2756536fbf/sbom/origsbom.json --timeout 30m  (cwd=/home/csecuser/jobs/DBF/jobs/sources/root_sources)
+2026-05-07T21:46:58+03:00       INFO    [license] License scanning is enabled
+2026-05-07T21:46:59+03:00       INFO    Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
+2026-05-07T21:46:59+03:00       INFO    Number of language-specific files       num=84
+[INFO] restored template pom.xml files: 0
+21:46:59 [INFO] [cplus] merged 15 new C/C++ component(s) into origsbom.json
+21:46:59 [INFO] task done: Trivy SBOM
+21:46:59 [INFO] task start: Vulnerability Management
+21:46:59 [INFO] [normalize] processing: origsbom.json
+21:46:59 [INFO] [normalize] origsbom.json: components 4684→4669, vulnerabilities 0→0, filtered=15
+21:46:59 [WARNING] [normalize] origsbom.json: 15 component(s) filtered:
+21:46:59 [WARNING] [normalize]   - boost: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - boost: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - fmt: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - fmt: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - hyperscan: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - libconfig: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - libconfig: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - libpcap: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - lz4: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - lz4: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - lz4: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - ragel: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - xxhash: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - xxhash: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [WARNING] [normalize]   - xxhash: pkg:generic — handled by C/C++ pipeline separately
+21:46:59 [INFO] [normalize] saved: /jobs/48c4cf57dd504a9f82bfeb2756536fbf/sbom/debug/origsbom/origsbom_normalized.json
+21:46:59 [INFO] [normalize] using normalized SBOM: /jobs/48c4cf57dd504a9f82bfeb2756536fbf/sbom/debug/origsbom/origsbom_normalized.json
