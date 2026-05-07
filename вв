@@ -1,6 +1,10 @@
-20:17:35 [INFO] task done: Registry Sources Scan — Root
-20:17:35 [INFO] task start: C/C++ Scan
-20:17:35 [INFO] [cplus] scanner: oss_checks/cpluschecks/scanner.py
-20:17:35 [INFO] [cplus] scan_root: jobs/DBF/jobs/sources/root_sources (exists=True)
-20:17:35 [INFO] [cplus] output: jobs/182a532ffa4f4e33ae9c6392041e68ea/sbom/cplus_sbom.json
-20:17:35 [INFO] task done: C/C++ Scan
+20:48:42 [INFO] [cplus] __file__: oss_checks/scanner.py
+20:48:42 [INFO] [cplus] here: /oss_checks
+20:48:42 [INFO] [cplus] scanner: oss_checks/cpluschecks/scanner.py
+20:48:42 [INFO] [cplus] scan_root: /jobs/sources/root_sources (exists=True)
+20:48:42 [INFO] [cplus] output:jobs/b90eabc81e9e4e21911d7f418bc2bb86/sbom/cplus_sbom.json
+20:48:42 [INFO] task done: C/C++ Scan
+20:48:42 [INFO] task start: Trivy SBOM
+:~/oss_checks$ cd  oss_checks/cpluschecks
+(venv) csecuser@test-oss-checker:~/oss_checks/cpluschecks$ ls
+checkers  finding_utils.py  git_submodules.py  normalize.py  __pycache__  sbom.py  scanner.py
