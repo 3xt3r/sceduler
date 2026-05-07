@@ -1,30 +1,6 @@
-20:08:19 [INFO] task done: Registry Sources Scan — Root
-20:08:19 [INFO] task start: C/C++ Scan
-Traceback (most recent call last):
-  File "scanner.py", line 1585, in <module>
-    raise SystemExit(main())
-                     ~~~~^^
-  File "scanner.py", line 1576, in main
-    return pipeline_flow(
-        root=root,
-    ...<2 lines>...
-        dt_config=dt_config,
-    )
-  File "scanner.py", line 114, in wrapper
-    result = fn(*args, **kwargs)
-  File "scanner.py", line 1318, in pipeline_flow
-    cplus_future = run_cplus_scan.submit(
-        paths,
-        config,
-        wait_for=[root_ws_future],
-    )
-  File "scanner.py", line 81, in submit
-    value = self.fn(*args, **kwargs)
-  File "scanner.py", line 842, in run_cplus_scan
-    logger.info("[cplus] scanner: %s", cplus_scanner)
-    ^^^^^^
-NameError: name 'logger' is not defined
-2026-05-07 20:08:19 | ERROR   |     [FAIL] scanner.py: exited with code 1
-2026-05-07 20:08:19 | INFO    |   moving results: jobs/sources -> /home/csecuser/results/2026-05-07/DBF__5.7.0_cert
-2026-05-07 20:08:22 | INFO    |   cleaning sources workspace: sources
-2026-05-07 20:08:24 | ERROR   |   [FAIL] / 5.7.0_cert: exited with code 1
+20:17:35 [INFO] task done: Registry Sources Scan — Root
+20:17:35 [INFO] task start: C/C++ Scan
+20:17:35 [INFO] [cplus] scanner: oss_checks/cpluschecks/scanner.py
+20:17:35 [INFO] [cplus] scan_root: jobs/DBF/jobs/sources/root_sources (exists=True)
+20:17:35 [INFO] [cplus] output: jobs/182a532ffa4f4e33ae9c6392041e68ea/sbom/cplus_sbom.json
+20:17:35 [INFO] task done: C/C++ Scan
