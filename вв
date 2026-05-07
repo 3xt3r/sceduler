@@ -1,7 +1,10 @@
-21:08:16 [INFO] [cplus] oss_checks_dir: /home/csecuser/oss_checks
-21:08:16 [INFO] [cplus] cplus_scanner: /home/csecuser/oss_checks/cpluschecks/scanner.py (exists=True)
-21:08:16 [INFO] [cplus] scanner: /home/csecuser/oss_checks/cpluschecks/scanner.py
-21:08:16 [INFO] [cplus] scan_root: /home/csecuser/jobs/DBF/jobs/sources/root_sources (exists=True)
-21:08:16 [INFO] [cplus] output: /home/csecuser/jobs/DBF/jobs/b2fb8ff7826c4eb3b078a4e1db1d60f3/sbom/cplus_sbom.json
-21:08:16 [INFO] task done: C/C++ Scan
-21:08:16 [INFO] task start: Trivy SBOM
+21:23:08 [INFO] task done: Registry Sources Scan — Root
+21:23:08 [INFO] task start: C/C++ Scan
+21:23:08 [INFO] [cplus] oss_checks_dir: /home/csecuser/oss_checks
+21:23:08 [INFO] [cplus] cplus_scanner: /home/csecuser/oss_checks/cpluschecks/scanner.py (exists=True)
+21:23:08 [INFO] [cplus] scanner: /home/csecuser/oss_checks/cpluschecks/scanner.py
+21:23:08 [INFO] [cplus] scan_root: /home/csecuser/jobs/DBF/jobs/sources/root_sources (exists=True)
+21:23:08 [INFO] [cplus] output: /home/csecuser/jobs/DBF/jobs/69df3f5af00242c89047f0817f72b2dc/sbom/cplus_sbom.json
+21:23:08 [INFO] task done: C/C++ Scan
+21:23:08 [INFO] task start: Trivy SBOM
+[INFO] removed rust vendor dirs: 0
