@@ -1,36 +1,41 @@
-21:46:57 [INFO] [cplus] output file exists: True
-21:46:57 [INFO] [cplus] output file size: 18695 bytes
-21:46:57 [INFO] [cplus] found 15 C/C++ component(s)
-21:46:57 [INFO] task done: C/C++ Scan
-21:46:57 [INFO] task start: Trivy SBOM
+14:20:26 [INFO] external_downloads: 276 hit(s) found in sources/root_sources
+14:20:26 [INFO] external_downloads JSON report written: c93775b9b3954b9793fcc61e570f9c6f/external_downloads/external_downloads_root.json
+14:20:26 [INFO] task done: External Downloads Scan — Root
+14:20:26 [INFO] task start: Registry Sources Scan — Root
+14:20:27 [INFO] registry_sources: 15 source(s) found in sources/root_sources
+14:20:27 [INFO] registry_sources report written: c93775b9b3954b9793fcc61e570f9c6f/ecosystems/registry_sources_root.json
+14:20:27 [INFO] task done: Registry Sources Scan — Root
+14:20:27 [INFO] task start: C/C++ Scan
+14:20:27 [INFO] [cplus] oss_checks_dir: oss_checks
+14:20:27 [INFO] [cplus] cplus_scanner: oss_checks/cpluschecks/scanner.py (exists=True)
+14:20:27 [INFO] [cplus] cplus_known (abs): c93775b9b3954b9793fcc61e570f9c6f/sbom/cplus_sbom.json
+14:20:27 [INFO] [cplus] scanner: oss_checks/cpluschecks/scanner.py
+14:20:27 [INFO] [cplus] scan_root: sources/root_sources (exists=True)
+14:20:27 [INFO] [cplus] output: c93775b9b3954b9793fcc61e570f9c6f/sbom/cplus_sbom.json
+14:21:47 [INFO] [cplus] returncode: 0
+14:21:47 [INFO] [cplus] stdout: [INFO] root=sources/root_sources  checkers=94 workers=8
+[INFO] candidate_files=5193
+[INFO] content cache ready in 0.88s
+[INFO] submodule scan disabled
+[INFO] post-contains hits=5
+[HIT] [3rdparty/cityhash/cityhash.H] Cityhash: {'name': 'cityhash', 'version': 'unknown', 'cpe': 'cpe:2.3:a:google:cityhash:*:*:*:*:*:*:*:*', 'version_source': '3rdparty/cityhash/cityhash.H', 'vendor': 'google', 'link': 'https://github.com/google/cityhash.git', 'version_source_abs': '3rdparty/cityhash/cityhash.H', 'version_source_group': 'sniffer/deps/internal', 'version_source_full': 'sniffer/deps/internal/nebula/3rdparty/cityhash/cityhash.H', 'evidence.class': 'vendored', 'evidence.confidence': 'high'}
+[HIT] [sources/r
+14:21:47 [INFO] [cplus] output file exists: True
+14:21:47 [INFO] [cplus] output file size: 307 bytes
+14:21:47 [INFO] [cplus] found 0 C/C++ component(s)
+14:21:47 [INFO] task done: C/C++ Scan
+14:21:47 [INFO] task start: Trivy SBOM
 [INFO] removed rust vendor dirs: 0
 [INFO] renamed Cargo.lock.in files: 0
 [INFO] hidden template pom.xml files: 0
-21:46:58 [INFO] RUN trivy fs . --scanners license --format cyclonedx --output /home/csecuser/jobs/DBF/jobs/48c4cf57dd504a9f82bfeb2756536fbf/sbom/origsbom.json --timeout 30m  (cwd=/home/csecuser/jobs/DBF/jobs/sources/root_sources)
-2026-05-07T21:46:58+03:00       INFO    [license] License scanning is enabled
-2026-05-07T21:46:59+03:00       INFO    Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
-2026-05-07T21:46:59+03:00       INFO    Number of language-specific files       num=84
+14:21:47 [INFO] RUN trivy fs . --scanners license --format cyclonedx --output c93775b9b3954b9793fcc61e570f9c6f/sbom/origsbom.json --timeout 30m  (cwd=sources/root_sources)
+2026-05-08T14:21:47+03:00       INFO    [license] License scanning is enabled
+2026-05-08T14:21:48+03:00       INFO    Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
+2026-05-08T14:21:48+03:00       INFO    Number of language-specific files       num=84
 [INFO] restored template pom.xml files: 0
-21:46:59 [INFO] [cplus] merged 15 new C/C++ component(s) into origsbom.json
-21:46:59 [INFO] task done: Trivy SBOM
-21:46:59 [INFO] task start: Vulnerability Management
-21:46:59 [INFO] [normalize] processing: origsbom.json
-21:46:59 [INFO] [normalize] origsbom.json: components 4684→4669, vulnerabilities 0→0, filtered=15
-21:46:59 [WARNING] [normalize] origsbom.json: 15 component(s) filtered:
-21:46:59 [WARNING] [normalize]   - boost: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - boost: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - fmt: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - fmt: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - hyperscan: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - libconfig: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - libconfig: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - libpcap: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - lz4: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - lz4: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - lz4: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - ragel: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - xxhash: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - xxhash: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [WARNING] [normalize]   - xxhash: pkg:generic — handled by C/C++ pipeline separately
-21:46:59 [INFO] [normalize] saved: /jobs/48c4cf57dd504a9f82bfeb2756536fbf/sbom/debug/origsbom/origsbom_normalized.json
-21:46:59 [INFO] [normalize] using normalized SBOM: /jobs/48c4cf57dd504a9f82bfeb2756536fbf/sbom/debug/origsbom/origsbom_normalized.json
+14:21:48 [WARNING] [cplus] post-trivy merge failed: cdxgen not found — download cdxgen-linux-amd64 and place it in oss_checks/instruments/cdxgen or add to PATH
+
+(venv) test-oss-checker:~/oss_checks/instruments$ ls
+cdxgen-linux-amd64  cleanup  ecosystems  excel_utils.py  extract  __init__.py  __pycache__
+(venv) est-oss-checker:~/oss_checks/instruments$
+
