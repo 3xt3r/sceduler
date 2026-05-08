@@ -1,41 +1,39 @@
-14:20:26 [INFO] external_downloads: 276 hit(s) found in sources/root_sources
-14:20:26 [INFO] external_downloads JSON report written: c93775b9b3954b9793fcc61e570f9c6f/external_downloads/external_downloads_root.json
-14:20:26 [INFO] task done: External Downloads Scan — Root
-14:20:26 [INFO] task start: Registry Sources Scan — Root
-14:20:27 [INFO] registry_sources: 15 source(s) found in sources/root_sources
-14:20:27 [INFO] registry_sources report written: c93775b9b3954b9793fcc61e570f9c6f/ecosystems/registry_sources_root.json
-14:20:27 [INFO] task done: Registry Sources Scan — Root
-14:20:27 [INFO] task start: C/C++ Scan
-14:20:27 [INFO] [cplus] oss_checks_dir: oss_checks
-14:20:27 [INFO] [cplus] cplus_scanner: oss_checks/cpluschecks/scanner.py (exists=True)
-14:20:27 [INFO] [cplus] cplus_known (abs): c93775b9b3954b9793fcc61e570f9c6f/sbom/cplus_sbom.json
-14:20:27 [INFO] [cplus] scanner: oss_checks/cpluschecks/scanner.py
-14:20:27 [INFO] [cplus] scan_root: sources/root_sources (exists=True)
-14:20:27 [INFO] [cplus] output: c93775b9b3954b9793fcc61e570f9c6f/sbom/cplus_sbom.json
-14:21:47 [INFO] [cplus] returncode: 0
-14:21:47 [INFO] [cplus] stdout: [INFO] root=sources/root_sources  checkers=94 workers=8
+15:20:46 [INFO] RUN trivy fs . --scanners license --format cyclonedx --output 656b75ba387f47a581b0b728da3ff62d/sbom/origsbom.json --timeout 30m  (cwd=sources/root_sources)
+2026-05-08T15:20:46+03:00       INFO    [license] License scanning is enabled
+2026-05-08T15:20:47+03:00       INFO    Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
+2026-05-08T15:20:47+03:00       INFO    Number of language-specific files       num=85
+[INFO] restored template pom.xml files: 0
+15:20:47 [INFO] [cplus] merging via cdxgen: origsbom.json + cplus_sbom.json
+15:20:53 [INFO] [cplus] cdxgen stdout: SECURE MODE: DEPENDENCY_TRACK_API_KEY: DEPENDENCY_TRACK_API_KEY matches a credential naming pattern and is set in the environment. Build tools or install scripts invoked during SBOM generation may read environment variables.
+SECURE MODE: GITLAB_TOKEN: GITLAB_TOKEN matches a credential naming pattern and is set in the environment. Build tools or install scripts invoked during SBOM generation may read environment variables.
+15:20:53 [WARNING] [cplus] cdxgen stderr: Notice: Running python command without '-S' argument. Only run cdxgen in trusted directories to prevent auto-executing local scripts.
+Notice: pip/uv install invoked without '--only-binary'. This allows executing untrusted setup.py scripts. Only run cdxgen in trusted directories.
+Notice: Running python command without '-S' argument. Only run cdxgen in trusted directories to prevent auto-executing local scripts.
+15:20:53 [INFO] [cplus] cdxgen merge done -> origsbom.json
+15:20:53 [INFO] task done: Trivy SBOM
+15:20:53 [INFO] task start: Vulnerability Management
+15:20:53 [INFO] [normalize] processing: origsbom.json
+15:20:53 [INFO] [normalize] origsbom.json: components 138→138, vulnerabilities 0→0, filtered=0
+15:20:53 [INFO] [normalize] saved: 656b75ba387f47a581b0b728da3ff62d/sbom/debug/origsbom/origsbom_normalized.json
+15:20:53 [INFO] [normalize] using normalized SBOM: 656b75ba387f47a581b0b728da3ff62d/sbom/debug/origsbom/origsbom_normalized.json
+
+
+14:28:51 [INFO] task start: C/C++ Scan
+14:28:51 [INFO] [cplus] oss_checks_dir: oss_checks
+14:28:51 [INFO] [cplus] cplus_scanner: oss_checks/cpluschecks/scanner.py (exists=True)
+14:28:51 [INFO] [cplus] cplus_known (abs): e3a84664e6964483bd32e1c4b5f82bef/sbom/cplus_sbom.json
+14:28:51 [INFO] [cplus] scanner: oss_checks/cpluschecks/scanner.py
+14:28:51 [INFO] [cplus] scan_root: sources/root_sources (exists=True)
+14:28:51 [INFO] [cplus] output: e3a84664e6964483bd32e1c4b5f82bef/sbom/cplus_sbom.json
+14:30:11 [INFO] [cplus] returncode: 0
+14:30:11 [INFO] [cplus] stdout: [INFO] root=sources/root_sources  checkers=94 workers=8
 [INFO] candidate_files=5193
-[INFO] content cache ready in 0.88s
+[INFO] content cache ready in 0.89s
 [INFO] submodule scan disabled
 [INFO] post-contains hits=5
-[HIT] [3rdparty/cityhash/cityhash.H] Cityhash: {'name': 'cityhash', 'version': 'unknown', 'cpe': 'cpe:2.3:a:google:cityhash:*:*:*:*:*:*:*:*', 'version_source': '3rdparty/cityhash/cityhash.H', 'vendor': 'google', 'link': 'https://github.com/google/cityhash.git', 'version_source_abs': '3rdparty/cityhash/cityhash.H', 'version_source_group': 'sniffer/deps/internal', 'version_source_full': 'sniffer/deps/internal/nebula/3rdparty/cityhash/cityhash.H', 'evidence.class': 'vendored', 'evidence.confidence': 'high'}
-[HIT] [sources/r
-14:21:47 [INFO] [cplus] output file exists: True
-14:21:47 [INFO] [cplus] output file size: 307 bytes
-14:21:47 [INFO] [cplus] found 0 C/C++ component(s)
-14:21:47 [INFO] task done: C/C++ Scan
-14:21:47 [INFO] task start: Trivy SBOM
-[INFO] removed rust vendor dirs: 0
-[INFO] renamed Cargo.lock.in files: 0
-[INFO] hidden template pom.xml files: 0
-14:21:47 [INFO] RUN trivy fs . --scanners license --format cyclonedx --output c93775b9b3954b9793fcc61e570f9c6f/sbom/origsbom.json --timeout 30m  (cwd=sources/root_sources)
-2026-05-08T14:21:47+03:00       INFO    [license] License scanning is enabled
-2026-05-08T14:21:48+03:00       INFO    Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
-2026-05-08T14:21:48+03:00       INFO    Number of language-specific files       num=84
-[INFO] restored template pom.xml files: 0
-14:21:48 [WARNING] [cplus] post-trivy merge failed: cdxgen not found — download cdxgen-linux-amd64 and place it in oss_checks/instruments/cdxgen or add to PATH
-
-(venv) test-oss-checker:~/oss_checks/instruments$ ls
-cdxgen-linux-amd64  cleanup  ecosystems  excel_utils.py  extract  __init__.py  __pycache__
-(venv) est-oss-checker:~/oss_checks/instruments$
-
+[HIT] [format_parsers/MemoryViewInputStream.H] Avro: {'name': 'avro', 'version': 'unknown', 'cpe': 'cpe:2.3:a:apache:avro:*:*:*:*:*:*:*:*', 'version_source': 'format_parsers/MemoryViewInputStream.H', 'vendor': 'apache', 'link': 'https://github.com/apache/avro', 'version_source_abs': 'format_parsers/MemoryViewInputStream.H', 'version_source_group': 'sniffer/src/sniffer/l7_decoder/format_parsers', 'version_source_full': 'sniffer/sr
+14:30:11 [INFO] [cplus] output file exists: True
+14:30:11 [INFO] [cplus] output file size: 307 bytes
+14:30:11 [INFO] [cplus] found 0 C/C++ component(s)
+14:30:11 [INFO] task done: C/C++ Scan
+14:30:11 [INFO] task start: Trivy SBOM
