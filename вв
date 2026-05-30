@@ -1,39 +1,111 @@
-15:20:46 [INFO] RUN trivy fs . --scanners license --format cyclonedx --output 656b75ba387f47a581b0b728da3ff62d/sbom/origsbom.json --timeout 30m  (cwd=sources/root_sources)
-2026-05-08T15:20:46+03:00       INFO    [license] License scanning is enabled
-2026-05-08T15:20:47+03:00       INFO    Suppressing dependencies for development and testing. To display them, try the '--include-dev-deps' flag.
-2026-05-08T15:20:47+03:00       INFO    Number of language-specific files       num=85
-[INFO] restored template pom.xml files: 0
-15:20:47 [INFO] [cplus] merging via cdxgen: origsbom.json + cplus_sbom.json
-15:20:53 [INFO] [cplus] cdxgen stdout: SECURE MODE: DEPENDENCY_TRACK_API_KEY: DEPENDENCY_TRACK_API_KEY matches a credential naming pattern and is set in the environment. Build tools or install scripts invoked during SBOM generation may read environment variables.
-SECURE MODE: GITLAB_TOKEN: GITLAB_TOKEN matches a credential naming pattern and is set in the environment. Build tools or install scripts invoked during SBOM generation may read environment variables.
-15:20:53 [WARNING] [cplus] cdxgen stderr: Notice: Running python command without '-S' argument. Only run cdxgen in trusted directories to prevent auto-executing local scripts.
-Notice: pip/uv install invoked without '--only-binary'. This allows executing untrusted setup.py scripts. Only run cdxgen in trusted directories.
-Notice: Running python command without '-S' argument. Only run cdxgen in trusted directories to prevent auto-executing local scripts.
-15:20:53 [INFO] [cplus] cdxgen merge done -> origsbom.json
-15:20:53 [INFO] task done: Trivy SBOM
-15:20:53 [INFO] task start: Vulnerability Management
-15:20:53 [INFO] [normalize] processing: origsbom.json
-15:20:53 [INFO] [normalize] origsbom.json: components 138→138, vulnerabilities 0→0, filtered=0
-15:20:53 [INFO] [normalize] saved: 656b75ba387f47a581b0b728da3ff62d/sbom/debug/origsbom/origsbom_normalized.json
-15:20:53 [INFO] [normalize] using normalized SBOM: 656b75ba387f47a581b0b728da3ff62d/sbom/debug/origsbom/origsbom_normalized.json
+1. Сканирование исходных текстов
 
+На этом уровне мы ищем компоненты, которые заявлены в проекте.
 
-14:28:51 [INFO] task start: C/C++ Scan
-14:28:51 [INFO] [cplus] oss_checks_dir: oss_checks
-14:28:51 [INFO] [cplus] cplus_scanner: oss_checks/cpluschecks/scanner.py (exists=True)
-14:28:51 [INFO] [cplus] cplus_known (abs): e3a84664e6964483bd32e1c4b5f82bef/sbom/cplus_sbom.json
-14:28:51 [INFO] [cplus] scanner: oss_checks/cpluschecks/scanner.py
-14:28:51 [INFO] [cplus] scan_root: sources/root_sources (exists=True)
-14:28:51 [INFO] [cplus] output: e3a84664e6964483bd32e1c4b5f82bef/sbom/cplus_sbom.json
-14:30:11 [INFO] [cplus] returncode: 0
-14:30:11 [INFO] [cplus] stdout: [INFO] root=sources/root_sources  checkers=94 workers=8
-[INFO] candidate_files=5193
-[INFO] content cache ready in 0.89s
-[INFO] submodule scan disabled
-[INFO] post-contains hits=5
-[HIT] [format_parsers/MemoryViewInputStream.H] Avro: {'name': 'avro', 'version': 'unknown', 'cpe': 'cpe:2.3:a:apache:avro:*:*:*:*:*:*:*:*', 'version_source': 'format_parsers/MemoryViewInputStream.H', 'vendor': 'apache', 'link': 'https://github.com/apache/avro', 'version_source_abs': 'format_parsers/MemoryViewInputStream.H', 'version_source_group': 'sniffer/src/sniffer/l7_decoder/format_parsers', 'version_source_full': 'sniffer/sr
-14:30:11 [INFO] [cplus] output file exists: True
-14:30:11 [INFO] [cplus] output file size: 307 bytes
-14:30:11 [INFO] [cplus] found 0 C/C++ component(s)
-14:30:11 [INFO] task done: C/C++ Scan
-14:30:11 [INFO] task start: Trivy SBOM
+Что входит в состав:
+
+прямые зависимости, которые разработчик явно указал в проекте;
+транзитивные зависимости, которые подтягиваются через другие библиотеки;
+версии библиотек и пакетов;
+пакетные manifest-файлы и lock-файлы;
+модули, подключаемые через пакетные менеджеры.
+
+Примеры файлов:
+
+pom.xml
+build.gradle
+package.json
+package-lock.json
+go.mod
+go.sum
+requirements.txt
+Pipfile.lock
+Cargo.lock
+composer.lock
+
+Для речи можно сказать так:
+
+На уровне исходных текстов мы определяем, какие зависимости описаны в самом проекте. Здесь мы видим библиотеки, которые разработчик подключил напрямую, а также зависимости, которые подтягиваются через них. То есть на этом этапе формируется первичное понимание состава приложения.
+
+2. Сканирование сборочного окружения
+
+На этом уровне мы ищем компоненты, которые участвуют в процессе сборки.
+
+Что входит в состав:
+
+базовый образ для сборки;
+системные пакеты внутри build-окружения;
+SDK;
+runtime-среды;
+компиляторы;
+пакетные менеджеры;
+build-инструменты;
+временные зависимости, которые нужны только для сборки;
+версии инструментов, используемых в CI/CD.
+
+Примеры компонентов:
+
+Maven;
+Gradle;
+npm;
+pip;
+Go toolchain;
+.NET SDK;
+JDK;
+Node.js;
+Python;
+системные пакеты Linux внутри build-контейнера.
+
+Для речи:
+
+На уровне сборочного окружения мы смотрим не на само приложение, а на то, с помощью чего оно собирается. Это важно, потому что сборочная среда тоже состоит из компонентов: базового образа, SDK, компиляторов, пакетных менеджеров и системных библиотек. Эти компоненты могут не входить в итоговый продукт, но они участвуют в его создании.
+
+3. Сканирование дистрибутива
+
+На этом уровне мы ищем компоненты, которые реально попали в итоговую поставку.
+
+Что входит в состав:
+
+готовые бинарные файлы;
+собранные библиотеки;
+runtime-зависимости;
+встроенные сторонние модули;
+системные пакеты внутри контейнерного образа;
+базовый образ контейнера;
+файлы приложения;
+исполняемые файлы;
+зависимости, которые были добавлены во время сборки;
+версии всех компонентов внутри артефакта.
+
+Примеры дистрибутива:
+
+Docker-образ;
+.jar;
+.war;
+.exe;
+.dll;
+.so;
+.deb;
+.rpm;
+архив с приложением.
+
+Для речи:
+
+На уровне дистрибутива мы анализируем уже готовый результат сборки. Здесь важно понять, какие компоненты фактически попали в поставку. Это может отличаться от того, что было указано в исходных файлах, потому что в процессе сборки могли добавиться дополнительные библиотеки, runtime-компоненты или системные пакеты.
+
+4. Сканирование продового окружения
+
+На этом уровне мы ищем компоненты, которые реально работают в production.
+
+Что входит в состав:
+
+запущенные контейнеры;
+образы и их версии;
+системные пакеты на серверах;
+установленные runtime-среды;
+работающие сервисы;
+sidecar-контейнеры;
+агенты мониторинга и безопасности;
+компоненты Kubernetes-окружения;
+версии приложений, фактически развернутых в production;
+отличия между проверенным дистрибутивом и тем, что реально запущено.
