@@ -1,38 +1,40 @@
-Big5Freq.tab
-CharDistribution.h
-EUCKRFreq.tab
-EUCTWFreq.tab
-GB2312Freq.tab
-JISFreq.tab
-JpCntx.h
-blake2s.hpp
-blake2sp.cpp
-cityhash.H
-ioapi.h
-json.hpp
-loclang.hpp
-mongoose.h
-nsBig5Prober.h
-nsCharSetProber.h
-nsCodingStateMachine.h
-nsEUCJPProber.h
-nsEUCKRProber.h
-nsEUCTWProber.h
-nsEscCharsetProber.h
-nsGB2312Prober.h
-nsHebrewProber.h
-nsLatin1Prober.h
-nsMBCSGroupProber.h
-nsPkgInt.h
-nsSBCSGroupProber.h
-nsSBCharSetProber.h
-nsSJISProber.h
-nsUTF8Prober.h
-nsUniversalDetector.h
-obsolete/protypes.h
-prcpucfg.h
-prcpucfg_linux.h
-prmem.h
-prtypes.h
-unzip.h
-zip.h
+Include directive	Found at (scancode path)
+Big5Freq.tab	ttt/mozilla/extensions/universalchardet/src/base/Big5Freq.tab
+CharDistribution.h	ttt/mozilla/extensions/universalchardet/src/base/CharDistribution.h
+EUCKRFreq.tab	ttt/mozilla/extensions/universalchardet/src/base/EUCKRFreq.tab
+EUCTWFreq.tab	ttt/mozilla/extensions/universalchardet/src/base/EUCTWFreq.tab
+GB2312Freq.tab	ttt/mozilla/extensions/universalchardet/src/base/GB2312Freq.tab
+JISFreq.tab	ttt/mozilla/extensions/universalchardet/src/base/JISFreq.tab
+JpCntx.h	ttt/mozilla/extensions/universalchardet/src/base/JpCntx.h
+blake2s.hpp	s/extract_rar/blake2s.hpp
+blake2sp.cpp	s/extract_rar/blake2sp.cpp
+cityhash.H	core/shared/utils/string_search/cityhash.H
+ioapi.h	Test/tioapi.h
+json.hpp	core/_total/dba_total/utils/json.hpp
+loclang.hpp	s/extract_rar/loclang.hpp
+mongoose.h	core/deps/mongoose/mongoose.h
+nsBig5Prober.h	ttt/mozilla/extensions/universalchardet/src/base/nsBig5Prober.h
+nsCharSetProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsCharSetProber.h
+nsCodingStateMachine.h	ttt/mozilla/extensions/universalchardet/src/base/nsCodingStateMachine.h
+nsEUCJPProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsEUCJPProber.h
+nsEUCKRProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsEUCKRProber.h
+nsEUCTWProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsEUCTWProber.h
+nsEscCharsetProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsEscCharsetProber.h
+nsGB2312Prober.h	ttt/mozilla/extensions/universalchardet/src/base/nsGB2312Prober.h
+nsHebrewProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsHebrewProber.h
+nsLatin1Prober.h	ttt/mozilla/extensions/universalchardet/src/base/nsLatin1Prober.h
+nsMBCSGroupProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsMBCSGroupProber.h
+nsPkgInt.h	ttt/mozilla/extensions/universalchardet/src/base/nsPkgInt.h
+nsSBCSGroupProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsSBCSGroupProber.h
+nsSBCharSetProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsSBCharSetProber.h
+nsSJISProber.h	ttt/mozilla/extensions/universalchardet/src/base/nsSJISProber.h
+nsUTF8Prober.h	ttt/mozilla/extensions/universalchardet/src/base/nsUTF8Prober.h
+nsUniversalDetector.h	ttt/mozilla/extensions/universalchardet/src/base/nsUniversalDetector.h
+obsolete/protypes.h	ttt/nspr-emu/obsolete/protypes.h
+prcpucfg.h	ttt/nspr-emu/prcpucfg.h
+prcpucfg_linux.h	ttt/nspr-emu/prcpucfg_linux.h
+prmem.h	ttt/nspr-emu/prmem.h
+prtypes.h	ttt/nspr-emu/prtypes.h
+unzip.h	Test/tunzip.h
+zip.h	Test/tzip.h
+
