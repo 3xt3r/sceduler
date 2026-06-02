@@ -1,41 +1,74 @@
 #!/usr/bin/env python3
 """
-sca_classify.py — классификация #include директив + опциональный SBoM по .so файлам.
+sca_classify_improved.py — классификация #include директив + опциональный SBoM по .so файлам.
 
-Логика классификации #include:
-  #include <...>  → System     (угловые скобки — внешний заголовок)
-  #include "..."  + найден в scancode + есть copyright/license → Third_Party
-  #include "..."  + найден в scancode + нет copyright/license  → Internal
-  #include "..."  + не найден в scancode                       → Unresolved
+Что изменено относительно исходной версии:
+  1. Классификация учитывает не только target include, но и source file:
+       - кто подключает заголовок;
+       - что подключается;
+       - откуда физически может браться заголовок.
+  2. Transitive теперь покрывает оба случая:
+       - third-party файл включает <...>  → transitive external dependency;
+       - third-party файл включает "..." → transitive/vendor-internal dependency.
+  3. Unresolved теперь не просто "quoted include not found".
+     Для него скрипт пытается показать origin/resolved path:
+       - source directory;
+       - include paths из compile_commands.json;
+       - явно переданные --include-path;
+       - глобальные include paths из compile_commands.json.
+  4. Исправлен баг со статистикой angle/quote.
+  5. Уменьшена зависимость от сравнения только по basename: для scancode используется поиск
+     по максимально подходящему суффиксу пути.
+
+Логика классификации:
+  #include <...> в обычном/internal/unknown source file
+      → System
+
+  #include <...> внутри third-party source file
+      → Transitive
+
+  #include "..." в обычном/internal source file:
+      - target header найден в scancode + есть copyright/license/holder → Third_Party
+      - target header найден в scancode + нет copyright/license/holder  → Internal
+      - target header не найден в scancode                             → Unresolved
+
+  #include "..." внутри third-party source file:
+      - target header найден/не найден                                  → Transitive
+        потому что зависимость пришла из стороннего source file.
+        Если target не найден в scancode, resolved_path/origin покажет, откуда он может браться.
 
 Выходные файлы:
   include_classification.xlsx  — классификация заголовков (всегда)
   sbom_so.cdx.json             — CycloneDX SBoM по .so файлам (если указан --so)
 
-Запуск:
-  # Один проект
-  python3 sca_classify.py --project /src --scanjson output.json
+Примеры запуска:
+  python3 sca_classify_improved.py --project /src --scanjson output.json
 
-  # Несколько проектов
-  python3 sca_classify.py \\
-      --project /src/test_libs \\
-      --project /src/test_libs_help \\
-      --scanjson output.json
+  python3 sca_classify_improved.py \
+      --project /src \
+      --scanjson output.json \
+      --compile-commands /src/build/compile_commands.json
 
-  # С генерацией SBoM по .so
-  python3 sca_classify.py \\
-      --project /src \\
-      --scanjson output.json \\
-      --so /usr/local/lib \\
-      --so /usr/lib \\
+  python3 sca_classify_improved.py \
+      --project /src \
+      --scanjson output.json \
+      --include-path /usr/include \
+      --include-path /opt/sdk/include
+
+  python3 sca_classify_improved.py \
+      --project /src \
+      --scanjson output.json \
+      --so /usr/local/lib \
+      --so /usr/lib \
       --so-output sbom_so.cdx.json
 """
 
+import argparse
 import hashlib
 import json
 import os
 import re
-import argparse
+import shlex
 import subprocess
 import uuid
 from collections import defaultdict
@@ -57,6 +90,15 @@ EXCLUDE_DIRS = {
     "__pycache__", ".cache",
 }
 
+VENDOR_DIR_HINTS = {
+    "third_party", "third-party", "3rdparty", "3rd_party", "vendor",
+    "vendors", "external", "extern", "deps", "dependencies",
+}
+
+GENERATED_DIR_HINTS = {
+    "build", "cmake-build-debug", "cmake-build-release", "generated", "gen", "autogen",
+}
+
 INCLUDE_RE = re.compile(
     r'^\s*#\s*include\s*(<)([^>]+)>|^\s*#\s*include\s*(")([^"]+)"'
 )
@@ -76,53 +118,135 @@ VERSION_RE = re.compile(r'\b(\d+\.\d+[\.\d]*)\b')
 VERSION_HINT_RE = re.compile(
     r'(version|ver|release|v\d|poco|openssl|zlib|boost|curl|ssl|crypto'
     r'|libpng|libjpeg|libxml|protobuf|grpc|zmq|pcap|pthread)',
-    re.IGNORECASE
+    re.IGNORECASE,
 )
 
 
 # ═════════════════════════════════════════════
-# ЧАСТЬ 1: классификация #include
+# Общие helpers
 # ═════════════════════════════════════════════
 
-def collect_includes(project_dirs: list[str]) -> dict[str, dict]:
+def norm_slash(path: str) -> str:
+    return path.replace("\\", "/")
+
+
+def norm_key(path: str) -> str:
+    path = norm_slash(path).strip()
+    while path.startswith("./"):
+        path = path[2:]
+    return path.lstrip("/")
+
+
+def abs_norm(path: str) -> str:
+    return norm_slash(os.path.abspath(os.path.expanduser(os.path.expandvars(path))))
+
+
+def is_under(path: str, root: str) -> bool:
+    try:
+        return os.path.commonpath([abs_norm(path), abs_norm(root)]) == abs_norm(root)
+    except ValueError:
+        return False
+
+
+def dedupe_keep_order(items: list[str]) -> list[str]:
+    seen = set()
+    result = []
+    for item in items:
+        if not item:
+            continue
+        normalized = abs_norm(item) if os.path.isabs(item) else item
+        if normalized in seen:
+            continue
+        seen.add(normalized)
+        result.append(item)
+    return result
+
+
+def compact_join(values, limit: int = 80) -> str:
+    values = [str(v) for v in values if v]
+    if not values:
+        return ""
+    values = sorted(set(values))
+    text = " | ".join(values)
+    return text[:limit] + " ..." if len(text) > limit else text
+
+
+def path_parts(path: str) -> set[str]:
+    return {p.lower() for p in norm_slash(path).split("/") if p}
+
+
+def has_vendor_hint(path: str) -> bool:
+    return bool(path_parts(path) & VENDOR_DIR_HINTS)
+
+
+def has_generated_hint(path: str) -> bool:
+    return bool(path_parts(path) & GENERATED_DIR_HINTS)
+
+
+# ═════════════════════════════════════════════
+# ЧАСТЬ 1: сбор и классификация #include
+# ═════════════════════════════════════════════
+
+def collect_include_occurrences(project_dirs: list[str]) -> list[dict]:
     """
-    Возвращает dict: include_name → {"syntax": "angle"|"quote", "sources": set(filepaths)}.
-    angle побеждает quote — если хоть раз встречается <...>,
-    заголовок считается внешним.
-    sources — множество файлов где встречается этот #include.
+    Возвращает список occurrence, а не только уникальные include.
+    Это нужно, чтобы понимать source context:
+      - кто подключает;
+      - в какой строке;
+      - third-party это source file или internal.
     """
-    includes: dict[str, dict] = {}
+    occurrences: list[dict] = []
+
     for project_dir in project_dirs:
         if not os.path.isdir(project_dir):
             print(f"  Предупреждение: директория не найдена: {project_dir}")
             continue
+
         for root, dirs, files in os.walk(project_dir):
             dirs[:] = [d for d in dirs if d.lower() not in EXCLUDE_DIRS]
             for filename in files:
                 if os.path.splitext(filename)[1].lower() not in SOURCE_EXTS:
                     continue
-                filepath = os.path.join(root, filename)
+
+                filepath = abs_norm(os.path.join(root, filename))
                 try:
                     with open(filepath, encoding="utf-8", errors="ignore") as f:
-                        for line in f:
+                        for line_no, line in enumerate(f, start=1):
                             m = INCLUDE_RE.match(line)
                             if not m:
                                 continue
+
                             if m.group(1):
-                                name, syntax = m.group(2), "angle"
+                                name, syntax = m.group(2).strip(), "angle"
                             else:
-                                name, syntax = m.group(4), "quote"
-                            if name not in includes:
-                                includes[name] = {"syntax": syntax, "sources": set()}
-                            elif syntax == "angle":
-                                includes[name]["syntax"] = "angle"
-                            includes[name]["sources"].add(filepath)
-                except Exception:
+                                name, syntax = m.group(4).strip(), "quote"
+
+                            occurrences.append({
+                                "include": name,
+                                "syntax": syntax,
+                                "source_path": filepath,
+                                "line": line_no,
+                            })
+                except Exception as exc:
+                    print(f"  Предупреждение: не удалось прочитать {filepath}: {exc}")
                     continue
-    return includes
+
+    return occurrences
 
 
 def build_scancode_index(scan_json: str) -> dict[str, list[dict]]:
+    """
+    Индексируем каждый scancode path по всем суффиксам.
+
+    Пример:
+      third_party/zlib/zlib.h
+    будет доступен по ключам:
+      third_party/zlib/zlib.h
+      zlib/zlib.h
+      zlib.h
+
+    Это лучше, чем сравнение только по basename, но всё равно остаётся эвристикой.
+    """
     with open(scan_json, encoding="utf-8") as f:
         data = json.load(f)
 
@@ -130,27 +254,71 @@ def build_scancode_index(scan_json: str) -> dict[str, list[dict]]:
     for entry in data.get("files", []):
         if entry.get("type") != "file":
             continue
-        path = entry.get("path", "").replace("\\", "/")
+
+        path = norm_key(entry.get("path", ""))
         if not path:
             continue
+
+        entry["_norm_path"] = path
         parts = path.split("/")
         for i in range(len(parts)):
-            index["/".join(parts[i:])].append(entry)
+            key = "/".join(parts[i:])
+            index[key].append(entry)
+
     return index
 
 
-def find_in_index(include_name: str, index: dict[str, list[dict]]) -> list[dict]:
-    normalized = include_name.replace("\\", "/")
-    if normalized in index:
-        return index[normalized]
-    basename = normalized.split("/")[-1]
-    if basename in index:
-        return index[basename]
-    return []
+def find_best_in_index(query_path: str, index: dict[str, list[dict]]) -> tuple[list[dict], str]:
+    """
+    Ищет query_path в scancode index по максимально точному суффиксу.
+    Возвращает (entries, matched_key).
+    """
+    normalized = norm_key(query_path)
+    if not normalized:
+        return [], ""
+
+    parts = [p for p in normalized.split("/") if p and p != "."]
+    candidate_keys = []
+
+    # Полный путь/suffix сначала.
+    candidate_keys.append("/".join(parts))
+
+    # Затем все суффиксы от длинного к короткому.
+    for i in range(len(parts)):
+        candidate_keys.append("/".join(parts[i:]))
+
+    # И только в самом конце basename.
+    if parts:
+        candidate_keys.append(parts[-1])
+
+    seen = set()
+    for key in candidate_keys:
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        if key in index:
+            return index[key], key
+
+    return [], ""
+
+
+def has_third_party_metadata(entries: list[dict]) -> bool:
+    for entry in entries:
+        if entry.get("detected_license_expression"):
+            return True
+        if entry.get("detected_license_expression_spdx"):
+            return True
+        if entry.get("copyrights"):
+            return True
+        if entry.get("holders"):
+            return True
+    return False
 
 
 def extract_metadata(entries: list[dict]) -> dict:
     licenses, licenses_spdx, copyrights, holders = set(), set(), set(), set()
+    found_paths = set()
+
     for entry in entries:
         if entry.get("detected_license_expression"):
             licenses.add(entry["detected_license_expression"])
@@ -162,71 +330,388 @@ def extract_metadata(entries: list[dict]) -> dict:
         for h in entry.get("holders", []):
             if h.get("holder"):
                 holders.add(h["holder"])
+        if entry.get("path"):
+            found_paths.add(entry["path"])
+
     return {
         "license":      " | ".join(sorted(licenses)),
         "license_spdx": " | ".join(sorted(licenses_spdx)),
         "copyright":    " | ".join(sorted(copyrights)),
         "holders":      " | ".join(sorted(holders)),
-        "found_paths":  " | ".join(sorted({e["path"] for e in entries})),
+        "found_paths":  " | ".join(sorted(found_paths)),
     }
 
 
-def classify(includes: dict[str, dict], index: dict[str, list[dict]]):
-    system, internal, third_party, unresolved = [], [], [], []
+def classify_source_file(source_path: str, index: dict[str, list[dict]]) -> dict:
+    """
+    Определяет тип source file, где встретился include.
+    Это нужно для transitive логики.
+    """
+    entries, matched_key = find_best_in_index(source_path, index)
+    meta = extract_metadata(entries) if entries else {
+        "license": "", "license_spdx": "", "copyright": "", "holders": "", "found_paths": ""
+    }
 
-    # Сначала определяем какие файлы являются third-party
-    # (те файлы из scancode у которых есть copyright/license)
-    third_party_paths: set[str] = set()
-    for entry_list in index.values():
-        for entry in entry_list:
-            licenses = entry.get("detected_license_expression") or ""
-            copyrights = entry.get("copyrights", [])
-            holders = entry.get("holders", [])
-            if licenses or copyrights or holders:
-                third_party_paths.add(entry["path"].replace("\\", "/"))
+    if entries and has_third_party_metadata(entries):
+        kind = "Third_Party"
+    elif has_vendor_hint(source_path):
+        # Не основной источник истины, а safety net: часто ScanCode не находит license
+        # в каждом внутреннем header third-party библиотеки.
+        kind = "Third_Party_Path_Hint"
+    elif entries:
+        kind = "Internal"
+    else:
+        kind = "Unknown_Source"
 
-    for inc, info in sorted(includes.items()):
-        syntax = info["syntax"]
-        sources = info["sources"]
+    return {
+        "source_kind": kind,
+        "source_scancode_match": matched_key,
+        "source_scancode_path": meta["found_paths"],
+        "source_license": meta["license"],
+        "source_license_spdx": meta["license_spdx"],
+        "source_holders": meta["holders"],
+    }
+
+
+# ─────────────────────────────────────────────
+# Include path / compile_commands resolution
+# ─────────────────────────────────────────────
+
+def _split_compile_command(entry: dict) -> list[str]:
+    if isinstance(entry.get("arguments"), list):
+        return [str(a) for a in entry["arguments"]]
+
+    command = entry.get("command") or ""
+    if not command:
+        return []
+
+    try:
+        return shlex.split(command)
+    except ValueError:
+        return command.split()
+
+
+def _make_abs_include_path(path: str, base_dir: str) -> str:
+    path = os.path.expanduser(os.path.expandvars(path.strip()))
+    if not path:
+        return ""
+    if not os.path.isabs(path):
+        path = os.path.join(base_dir, path)
+    return abs_norm(path)
+
+
+def extract_include_paths_from_args(args: list[str], base_dir: str) -> list[str]:
+    include_paths: list[str] = []
+    i = 0
+
+    while i < len(args):
+        arg = args[i]
+
+        # GCC/Clang: -I path, -Ipath
+        if arg == "-I" and i + 1 < len(args):
+            include_paths.append(_make_abs_include_path(args[i + 1], base_dir))
+            i += 2
+            continue
+        if arg.startswith("-I") and len(arg) > 2:
+            include_paths.append(_make_abs_include_path(arg[2:], base_dir))
+            i += 1
+            continue
+
+        # GCC/Clang: -isystem path, -iquote path, -idirafter path
+        if arg in {"-isystem", "-iquote", "-idirafter"} and i + 1 < len(args):
+            include_paths.append(_make_abs_include_path(args[i + 1], base_dir))
+            i += 2
+            continue
+
+        # MSVC-like: /Ipath or /I path
+        if arg == "/I" and i + 1 < len(args):
+            include_paths.append(_make_abs_include_path(args[i + 1], base_dir))
+            i += 2
+            continue
+        if arg.startswith("/I") and len(arg) > 2:
+            include_paths.append(_make_abs_include_path(arg[2:], base_dir))
+            i += 1
+            continue
+
+        i += 1
+
+    return dedupe_keep_order([p for p in include_paths if p])
+
+
+def load_compile_commands(path: str | None) -> dict:
+    result = {
+        "by_file": defaultdict(list),
+        "all_include_paths": [],
+    }
+
+    if not path:
+        return result
+    if not os.path.isfile(path):
+        print(f"  Предупреждение: compile_commands.json не найден: {path}")
+        return result
+
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+    except Exception as exc:
+        print(f"  Предупреждение: не удалось прочитать compile_commands.json: {exc}")
+        return result
+
+    all_paths: list[str] = []
+    for entry in data:
+        directory = abs_norm(entry.get("directory") or os.getcwd())
+        source_file = entry.get("file") or ""
+        if source_file and not os.path.isabs(source_file):
+            source_file = os.path.join(directory, source_file)
+        source_file = abs_norm(source_file) if source_file else ""
+
+        args = _split_compile_command(entry)
+        include_paths = extract_include_paths_from_args(args, directory)
+
+        if source_file:
+            result["by_file"][source_file].extend(include_paths)
+        all_paths.extend(include_paths)
+
+    for file_path, paths in result["by_file"].items():
+        result["by_file"][file_path] = dedupe_keep_order(paths)
+    result["all_include_paths"] = dedupe_keep_order(all_paths)
+
+    return result
+
+
+def build_include_context(args) -> dict:
+    compile_ctx = load_compile_commands(args.compile_commands)
+
+    cli_paths = []
+    for p in args.include_paths or []:
+        cli_paths.append(_make_abs_include_path(p, os.getcwd()))
+
+    return {
+        "by_file": compile_ctx["by_file"],
+        "all_include_paths": compile_ctx["all_include_paths"],
+        "cli_include_paths": dedupe_keep_order(cli_paths),
+    }
+
+
+def guess_header_origin(resolved_path: str, project_roots: list[str]) -> str:
+    if not resolved_path:
+        return "Not found with available include context"
+
+    p = abs_norm(resolved_path)
+    parts = path_parts(p)
+
+    if has_generated_hint(p):
+        return "Generated/build artifact"
+
+    for root in project_roots:
+        if is_under(p, root):
+            return "Project tree header"
+
+    if p.startswith("/usr/include/") or "/usr/include/" in p:
+        return "OS/system package header"
+    if p.startswith("/usr/local/include/") or "/usr/local/include/" in p:
+        return "Local system install header"
+    if "vcpkg" in parts:
+        return "vcpkg package header"
+    if "conan" in parts or ".conan" in parts or ".conan2" in parts:
+        return "Conan package header"
+    if p.startswith("/opt/") or "/sdk/" in p.lower() or "sdk" in parts:
+        return "External SDK/header"
+
+    return "External include path header"
+
+
+def source_specific_include_paths(source_path: str, ctx: dict) -> list[str]:
+    source_path = abs_norm(source_path)
+    exact = ctx["by_file"].get(source_path, [])
+    if exact:
+        return exact
+
+    # fallback: если пути отличаются префиксом, пробуем suffix match по compile_commands.
+    # Это полезно, когда project path отличается между ScanCode/container/CI.
+    source_suffix = "/".join(norm_key(source_path).split("/")[-3:])
+    for known_file, paths in ctx["by_file"].items():
+        if norm_key(known_file).endswith(source_suffix):
+            return paths
+
+    return []
+
+
+def resolve_header(occurrence: dict, ctx: dict, project_roots: list[str]) -> dict:
+    """
+    Пытается физически найти header для include.
+    Для quote include сначала ищет рядом с source file, потом include paths.
+    Для angle include source directory не используется.
+    """
+    include_name = occurrence["include"]
+    syntax = occurrence["syntax"]
+    source_path = occurrence["source_path"]
+
+    search_dirs: list[str] = []
+    if syntax == "quote":
+        search_dirs.append(os.path.dirname(source_path))
+
+    search_dirs.extend(source_specific_include_paths(source_path, ctx))
+    search_dirs.extend(ctx.get("cli_include_paths", []))
+    search_dirs.extend(ctx.get("all_include_paths", []))
+    search_dirs = dedupe_keep_order(search_dirs)
+
+    for base_dir in search_dirs:
+        candidate = abs_norm(os.path.join(base_dir, include_name))
+        if os.path.isfile(candidate):
+            return {
+                "resolved_path": candidate,
+                "resolved_via": base_dir,
+                "header_origin": guess_header_origin(candidate, project_roots),
+            }
+
+    return {
+        "resolved_path": "",
+        "resolved_via": "",
+        "header_origin": "Not found with available include context",
+    }
+
+
+def find_target_header_entries(occurrence: dict, resolution: dict, index: dict[str, list[dict]]) -> tuple[list[dict], str]:
+    # Сначала пробуем resolved path — он точнее include string.
+    if resolution.get("resolved_path"):
+        entries, matched_key = find_best_in_index(resolution["resolved_path"], index)
+        if entries:
+            return entries, matched_key
+
+    # Потом fallback по самому include name.
+    return find_best_in_index(occurrence["include"], index)
+
+
+def source_ref(occurrence: dict) -> str:
+    return f"{occurrence['source_path']}:{occurrence['line']}"
+
+
+def aggregate_rows(rows: list[dict]) -> list[dict]:
+    """
+    Схлопывает occurrence-level rows в более компактные строки отчёта.
+    Источники собираются в одно поле source_refs.
+    """
+    key_fields = [
+        "include", "syntax", "category", "found_paths", "license", "license_spdx",
+        "copyright", "holders", "resolved_path", "resolved_via", "header_origin",
+        "transitive_type", "source_kind",
+    ]
+
+    grouped: dict[tuple, dict] = {}
+    for row in rows:
+        key = tuple(row.get(k, "") for k in key_fields)
+        if key not in grouped:
+            grouped[key] = dict(row)
+            grouped[key]["source_refs_set"] = set()
+            grouped[key]["source_files_set"] = set()
+        grouped[key]["source_refs_set"].add(row.get("source_ref", ""))
+        grouped[key]["source_files_set"].add(row.get("source_path", ""))
+
+    result = []
+    for row in grouped.values():
+        row["source_refs"] = " | ".join(sorted(x for x in row.pop("source_refs_set") if x))
+        row["source_files"] = " | ".join(sorted(x for x in row.pop("source_files_set") if x))
+        result.append(row)
+
+    result.sort(key=lambda r: (r.get("include", ""), r.get("source_kind", ""), r.get("source_refs", "")))
+    return result
+
+
+def classify(occurrences: list[dict], index: dict[str, list[dict]], ctx: dict, project_roots: list[str]):
+    system_rows, internal_rows, third_party_rows, unresolved_rows, transitive_rows = [], [], [], [], []
+
+    for occ in sorted(occurrences, key=lambda x: (x["include"], x["source_path"], x["line"])):
+        inc = occ["include"]
+        syntax = occ["syntax"]
+        source_info = classify_source_file(occ["source_path"], index)
+        source_is_third_party = source_info["source_kind"].startswith("Third_Party")
+
+        base = {
+            "include": inc,
+            "syntax": "<...>" if syntax == "angle" else '"..."',
+            "source_ref": source_ref(occ),
+            "source_path": occ["source_path"],
+            "source_kind": source_info["source_kind"],
+            "source_scancode_path": source_info["source_scancode_path"],
+            "found_paths": "",
+            "license": "",
+            "license_spdx": "",
+            "copyright": "",
+            "holders": "",
+            "resolved_path": "",
+            "resolved_via": "",
+            "header_origin": "",
+            "transitive_type": "",
+            "note": "",
+        }
 
         if syntax == "angle":
-            # Проверяем: все ли источники этого include — third-party файлы?
-            # Нормализуем пути источников для сравнения с путями scancode
-            source_basenames = {os.path.basename(s) for s in sources}
-            tp_sources = set()
-            for tp_path in third_party_paths:
-                if os.path.basename(tp_path) in source_basenames:
-                    tp_sources.add(tp_path)
-
-            if tp_sources and all(
-                os.path.basename(s) in {os.path.basename(tp) for tp in tp_sources}
-                for s in sources
-            ):
-                # Все источники — third-party файлы → транзитивная зависимость
-                system.append({
-                    "include": inc,
-                    "transitive_from": " | ".join(sorted({os.path.basename(tp) for tp in tp_sources})),
-                })
+            if source_is_third_party:
+                row = dict(base)
+                row["category"] = "Transitive"
+                row["transitive_type"] = "External angle include from third-party source"
+                row["header_origin"] = "External/system include path; exact path requires compiler include context"
+                transitive_rows.append(row)
             else:
-                system.append({"include": inc, "transitive_from": ""})
+                row = dict(base)
+                row["category"] = "System"
+                row["header_origin"] = "External/system include path"
+                system_rows.append(row)
             continue
 
-        entries = find_in_index(inc, index)
-        if not entries:
-            unresolved.append({"include": inc})
+        # quote include: пытаемся понять target header и его origin.
+        resolution = resolve_header(occ, ctx, project_roots)
+        target_entries, matched_key = find_target_header_entries(occ, resolution, index)
+        meta = extract_metadata(target_entries) if target_entries else {
+            "license": "", "license_spdx": "", "copyright": "", "holders": "", "found_paths": ""
+        }
+
+        row = dict(base)
+        row.update(meta)
+        row["resolved_path"] = resolution["resolved_path"]
+        row["resolved_via"] = resolution["resolved_via"]
+        row["header_origin"] = resolution["header_origin"]
+
+        if target_entries and has_third_party_metadata(target_entries):
+            if source_is_third_party:
+                row["category"] = "Transitive"
+                row["transitive_type"] = "Quoted include from third-party source to third-party target"
+                transitive_rows.append(row)
+            else:
+                row["category"] = "Third_Party"
+                third_party_rows.append(row)
             continue
-        meta = extract_metadata(entries)
-        row = {"include": inc, **meta}
-        if meta["license"] or meta["copyright"] or meta["holders"]:
-            third_party.append(row)
+
+        if target_entries:
+            if source_is_third_party:
+                row["category"] = "Transitive"
+                row["transitive_type"] = "Vendor-internal quoted include from third-party source"
+                row["note"] = "Target has no own license/copyright, but source file is third-party"
+                transitive_rows.append(row)
+            else:
+                row["category"] = "Internal"
+                internal_rows.append(row)
+            continue
+
+        # Не нашли target в ScanCode.
+        if source_is_third_party:
+            row["category"] = "Transitive"
+            row["transitive_type"] = "Unresolved quoted include from third-party source"
+            row["note"] = "Target not found in ScanCode; see resolved_path/header_origin"
+            transitive_rows.append(row)
         else:
-            internal.append(row)
+            row["category"] = "Unresolved"
+            row["note"] = "Target not found in ScanCode; see resolved_path/header_origin"
+            unresolved_rows.append(row)
 
-    # Разделяем system на обычные системные и транзитивные
-    transitive = [r for r in system if r.get("transitive_from")]
-    system_clean = [r for r in system if not r.get("transitive_from")]
-
-    return system_clean, internal, third_party, unresolved, transitive
+    return (
+        aggregate_rows(system_rows),
+        aggregate_rows(internal_rows),
+        aggregate_rows(third_party_rows),
+        aggregate_rows(unresolved_rows),
+        aggregate_rows(transitive_rows),
+    )
 
 
 # ═════════════════════════════════════════════
@@ -368,7 +853,7 @@ def build_cyclonedx_sbom(components: list[dict], so_roots: list[str]) -> dict:
         "version": 1,
         "metadata": {
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "tools": [{"vendor": "custom", "name": "sca_classify.py", "version": "2.0.0"}],
+            "tools": [{"vendor": "custom", "name": "sca_classify_improved.py", "version": "3.0.0"}],
             "component": {
                 "type": "operating-system",
                 "name": "container",
@@ -398,36 +883,65 @@ SHEET_COLORS = {
 
 COLUMNS = {
     "System": [
-        ("Include directive", 50),
+        ("Include directive", 42),
+        ("Syntax", 12),
+        ("Header origin", 42),
+        ("Included from", 90),
+        ("Source kind", 24),
     ],
     "Internal": [
-        ("Include directive", 40),
+        ("Include directive", 36),
+        ("Syntax", 12),
         ("Found at (scancode path)", 55),
+        ("Resolved path", 70),
+        ("Header origin", 36),
+        ("Included from", 90),
+        ("Source kind", 24),
     ],
     "Third_Party": [
         ("Include directive", 35),
+        ("Syntax", 12),
         ("Found at (scancode path)", 50),
+        ("Resolved path", 65),
+        ("Header origin", 36),
         ("License (scancode)", 30),
         ("License SPDX", 20),
         ("Copyright", 50),
         ("Holders", 40),
+        ("Included from", 90),
+        ("Source kind", 24),
     ],
     "Transitive": [
-        ("Include directive", 50),
-        ("Transitive from (third-party file)", 60),
+        ("Include directive", 35),
+        ("Syntax", 12),
+        ("Transitive type", 52),
+        ("Found at (scancode path)", 50),
+        ("Resolved path", 65),
+        ("Header origin", 40),
+        ("License (scancode)", 30),
+        ("License SPDX", 20),
+        ("Included from third-party source", 90),
+        ("Source kind", 24),
+        ("Note", 60),
     ],
     "Unresolved": [
-        ("Include directive", 55),
-        ("Note", 65),
+        ("Include directive", 42),
+        ("Syntax", 12),
+        ("Header origin / where it may come from", 44),
+        ("Resolved path", 75),
+        ("Resolved via include path", 65),
+        ("Included from", 90),
+        ("Source kind", 24),
+        ("Note", 70),
     ],
 }
 
 DATA_KEYS = {
-    "System":      ["include"],
-    "Internal":    ["include", "found_paths"],
-    "Third_Party": ["include", "found_paths", "license", "license_spdx", "copyright", "holders"],
-    "Transitive":  ["include", "transitive_from"],
-    "Unresolved":  ["include", "note"],
+    "System":      ["include", "syntax", "header_origin", "source_refs", "source_kind"],
+    "Internal":    ["include", "syntax", "found_paths", "resolved_path", "header_origin", "source_refs", "source_kind"],
+    "Third_Party": ["include", "syntax", "found_paths", "resolved_path", "header_origin", "license", "license_spdx", "copyright", "holders", "source_refs", "source_kind"],
+    "Transitive":  ["include", "syntax", "transitive_type", "found_paths", "resolved_path", "header_origin", "license", "license_spdx", "source_refs", "source_kind", "note"],
+    "Unresolved":  ["include", "syntax", "header_origin", "resolved_path", "resolved_via", "source_refs", "source_kind", "note"],
 }
 
 
@@ -444,7 +958,7 @@ def write_sheet(wb: openpyxl.Workbook, sheet_name: str, rows: list[dict]) -> Non
         cell.alignment = CENTER
         ws.column_dimensions[get_column_letter(col_idx)].width = col_width
 
-    ws.row_dimensions[1].height = 22
+    ws.row_dimensions[1].height = 24
 
     for row_idx, row in enumerate(rows, start=2):
         fill = ALT_FILL if row_idx % 2 == 0 else PatternFill("solid", start_color="FFFFFF")
@@ -458,14 +972,12 @@ def write_sheet(wb: openpyxl.Workbook, sheet_name: str, rows: list[dict]) -> Non
         bold=True, name="Arial", size=10, color=accent
     )
     ws.freeze_panes = "A2"
+    ws.auto_filter.ref = ws.dimensions
 
 
 def build_xlsx(system, internal, third_party, unresolved, transitive, output_path: str) -> None:
     wb = openpyxl.Workbook()
     wb.remove(wb.active)
-
-    for row in unresolved:
-        row["note"] = 'Quoted include "..." not found in scancode — check for missing dependency'
 
     write_sheet(wb, "System", system)
     write_sheet(wb, "Internal", internal)
@@ -474,17 +986,17 @@ def build_xlsx(system, internal, third_party, unresolved, transitive, output_pat
     write_sheet(wb, "Unresolved", unresolved)
 
     ws_s = wb.create_sheet("Summary", 0)
-    ws_s.column_dimensions["A"].width = 56
+    ws_s.column_dimensions["A"].width = 70
     ws_s.column_dimensions["B"].width = 14
 
     total = len(system) + len(internal) + len(third_party) + len(transitive) + len(unresolved)
     rows = [
         ("Category", "Count"),
-        ("System  (#include <...>, truly external)", len(system)),
-        ("Internal  (in project, no copyright)", len(internal)),
-        ("Third-party  (in project, has copyright/license)", len(third_party)),
-        ("Transitive  (#include <...> from third-party files)", len(transitive)),
-        ("Unresolved  (#include \"...\", not found in scancode)", len(unresolved)),
+        ("System  (#include <...> from non-third-party source files)", len(system)),
+        ("Internal  (quoted target found in project/scancode without third-party metadata)", len(internal)),
+        ("Third-party  (quoted target has copyright/license/holder)", len(third_party)),
+        ("Transitive  (#include from third-party source files; angle and quoted)", len(transitive)),
+        ("Unresolved  (target not found in scancode; origin shown if resolvable)", len(unresolved)),
         ("Total", total),
     ]
     accent_map = ["1F4E79", "2E75B6", "375623", "843C0C", "5C3292", "7B7B7B", "1F4E79"]
@@ -502,7 +1014,7 @@ def build_xlsx(system, internal, third_party, unresolved, transitive, output_pat
             c1.alignment = LEFT
             c2.alignment = CENTER
 
-    ws_s.row_dimensions[1].height = 22
+    ws_s.row_dimensions[1].height = 24
     ws_s.freeze_panes = "A2"
     wb.save(output_path)
 
@@ -536,6 +1048,18 @@ def main():
         default="include_classification.xlsx",
         help="Выходной xlsx (по умолчанию: include_classification.xlsx)",
     )
+    parser.add_argument(
+        "--compile-commands",
+        default=None,
+        help="Путь к compile_commands.json. Нужен для точного resolved_path/origin unresolved headers.",
+    )
+    parser.add_argument(
+        "--include-path",
+        action="append",
+        dest="include_paths",
+        metavar="DIR",
+        help="Дополнительный include path для резолвинга headers. Можно указать несколько раз.",
+    )
 
     # --- .so SBoM ---
     parser.add_argument(
@@ -558,24 +1082,39 @@ def main():
     )
 
     args = parser.parse_args()
+    project_roots = [abs_norm(p) for p in args.projects]
 
     # ── Классификация #include ──────────────────
-    print("=" * 55)
+    print("=" * 60)
     print("Шаг 1: сбор #include из исходников")
-    print("=" * 55)
+    print("=" * 60)
     for p in args.projects:
         print(f"  → {p}")
-    includes = collect_includes(args.projects)
-    angle = sum(1 for s in includes.values() if s == "angle")
-    quote = sum(1 for s in includes.values() if s == "quote")
-    print(f"  Всего уникальных: {len(includes)}  (angle: {angle}, quote: {quote})")
+
+    occurrences = collect_include_occurrences(args.projects)
+    unique_includes = {o["include"] for o in occurrences}
+    angle = sum(1 for o in occurrences if o["syntax"] == "angle")
+    quote = sum(1 for o in occurrences if o["syntax"] == "quote")
+    print(f"  Всего occurrences: {len(occurrences)}")
+    print(f"  Уникальных include: {len(unique_includes)}")
+    print(f"  angle occurrences: {angle}")
+    print(f"  quote occurrences: {quote}")
 
     print("\nШаг 2: загрузка scancode JSON...")
     index = build_scancode_index(args.scanjson)
-    print(f"  Проиндексировано суффиксов: {len(index)}")
+    print(f"  Проиндексировано scancode-суффиксов: {len(index)}")
 
-    print("\nШаг 3: классификация...")
-    system, internal, third_party, unresolved, transitive = classify(includes, index)
+    print("\nШаг 3: загрузка include context...")
+    ctx = build_include_context(args)
+    per_file_count = len(ctx["by_file"])
+    all_paths_count = len(ctx["all_include_paths"])
+    cli_paths_count = len(ctx["cli_include_paths"])
+    print(f"  compile_commands source files: {per_file_count}")
+    print(f"  include paths from compile_commands: {all_paths_count}")
+    print(f"  include paths from CLI: {cli_paths_count}")
+
+    print("\nШаг 4: классификация...")
+    system, internal, third_party, unresolved, transitive = classify(occurrences, index, ctx, project_roots)
     print(f"  System:      {len(system)}")
     print(f"  Internal:    {len(internal)}")
     print(f"  Third_Party: {len(third_party)}")
@@ -588,16 +1127,16 @@ def main():
 
     # ── SBoM по .so ────────────────────────────
     if args.so_roots:
-        print("\n" + "=" * 55)
-        print("Шаг 4: сбор .so файлов")
-        print("=" * 55)
+        print("\n" + "=" * 60)
+        print("Шаг 5: сбор .so файлов")
+        print("=" * 60)
         for r in args.so_roots:
             print(f"  → {r}")
 
         so_files = find_so_files(args.so_roots)
         print(f"  Найдено .so файлов: {len(so_files)}")
 
-        print("\nШаг 5: извлечение метаданных из .so...")
+        print("\nШаг 6: извлечение метаданных из .so...")
         components = build_so_components(so_files, args.so_no_strings)
 
         unknown = sum(1 for c in components if c["version"] == "unknown")
