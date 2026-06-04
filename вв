@@ -1,37 +1,835 @@
-ansible-runner	2.4.0	PyPI	pkg:pypi/ansible-runner@2.4.0
-deepdiff	4.3.2	PyPI	pkg:pypi/deepdiff@4.3.2
-docutils	0.21.2	PyPI	pkg:pypi/docutils@0.21.2
-importlib-metadata	6.2.1	PyPI	pkg:pypi/importlib-metadata@6.2.1
-lockfile	0.12.2	PyPI	pkg:pypi/lockfile@0.12.2
-ordered-set	4.1.0	PyPI	pkg:pypi/ordered-set@4.1.0
-packaging	24.1	PyPI	pkg:pypi/packaging@24.1
-pexpect	4.9.0	PyPI	pkg:pypi/pexpect@4.9.0
-ptyprocess	0.7.0	PyPI	pkg:pypi/ptyprocess@0.7.0
-python-daemon	3.0.1	PyPI	pkg:pypi/python-daemon@3.0.1
-setuptools	80.2.0.post20260507	PyPI	pkg:pypi/setuptools@80.2.0.post20260507
-xmltodict	1.0.2	PyPI	pkg:pypi/xmltodict@1.0.2
-zipp	3.20.2	PyPI	pkg:pypi/zipp@3.20.2
-apt-repo-tools	0.8.0-alt1	RPM	pkg:rpm/apt-repo-tools@0.8.0-alt1?arch=x86_64&epoch=0&upstream=apt-repo-tools-0.8.0-alt1.src.rpm
-axiomjdk-java21	21.0.7.0.0.12-1	RPM	pkg:rpm/axiomjdk-java21@21.0.7.0.0.12-1?arch=x86_64&epoch=3&upstream=axiomjdk-java21-21.0.7.0.0.12-1.src.rpm
-bmon	4.0-alt1	RPM	pkg:rpm/bmon@4.0-alt1?arch=x86_64&epoch=0&upstream=bmon-4.0-alt1.src.rpm
-elasticsearch	8.15.3-1	RPM	pkg:rpm/elasticsearch@8.15.3-1?arch=x86_64&epoch=0&upstream=elasticsearch-8.15.3-1-src.rpm
-htop	3.0.5-alt1	RPM	pkg:rpm/htop@3.0.5-alt1?arch=x86_64&epoch=0&upstream=htop-3.0.5-alt1.src.rpm
-libconfig	1.5-alt2	RPM	pkg:rpm/libconfig@1.5-alt2?arch=x86_64&epoch=0&upstream=libconfig-1.5-alt2.src.rpm
-libconfuse	2.7-alt1.1	RPM	pkg:rpm/libconfuse@2.7-alt1.1?arch=x86_64&epoch=0&upstream=confuse-2.7-alt1.1.src.rpm
-libcups	2.4.19-alt1	RPM	pkg:rpm/libcups@2.4.19-alt1?arch=x86_64&epoch=0&upstream=cups-2.4.19-alt1.src.rpm
-libdeflate	1.10-alt1	RPM	pkg:rpm/libdeflate@1.10-alt1?arch=x86_64&epoch=0&upstream=libdeflate-1.10-alt1.src.rpm
-libexif	0.6.26-alt1	RPM	pkg:rpm/libexif@0.6.26-alt1?arch=x86_64&epoch=0&upstream=libexif-0.6.26-alt1.src.rpm
-libibverbs	34.0-alt1	RPM	pkg:rpm/libibverbs@34.0-alt1?arch=x86_64&epoch=0&upstream=rdma-core-34.0-alt1.src.rpm
-libjemalloc2	5.3.0-alt2.1	RPM	pkg:rpm/libjemalloc2@5.3.0-alt2.1?arch=x86_64&epoch=0&upstream=libjemalloc2-5.3.0-alt2.1.src.rpm
-lighttpd	1.4.67-alt1	RPM	pkg:rpm/lighttpd@1.4.67-alt1?arch=x86_64&epoch=0&upstream=lighttpd-1.4.67-alt1.src.rpm
-nano	8.0-alt1	RPM	pkg:rpm/nano@8.0-alt1?arch=x86_64&epoch=0&upstream=nano-8.0-alt1.src.rpm
-nethogs	0.8.5-alt1	RPM	pkg:rpm/nethogs@0.8.5-alt1?arch=x86_64&epoch=0&upstream=nethogs-0.8.5-alt1.src.rpm
-nload	0.7.4-alt1	RPM	pkg:rpm/nload@0.7.4-alt1?arch=x86_64&epoch=0&upstream=nload-0.7.4-alt1.src.rpm
-numactl	2.0.14-alt2	RPM	pkg:rpm/numactl@2.0.14-alt2?arch=x86_64&epoch=0&upstream=numactl-2.0.14-alt2.src.rpm
-php8.3-readline	8.3.29-alt1	RPM	pkg:rpm/php8.3-readline@8.3.29-alt1?arch=x86_64&epoch=0&upstream=php8.3-readline-8.3.29-alt1.src.rpm
-python3-module-html5lib	1.0.1-g1	RPM	pkg:rpm/python3-module-html5lib@1.0.1-g1?arch=noarch&epoch=0&upstream=python3-module-html5lib-1.0.1-g1.src.rpm
-python3-module-lxml	4.9.3-alt1	RPM	pkg:rpm/python3-module-lxml@4.9.3-alt1?arch=x86_64&epoch=0&upstream=python3-module-lxml-4.9.3-alt1.src.rpm
-python3-module-pip	23.3.2-alt1	RPM	pkg:rpm/python3-module-pip@23.3.2-alt1?arch=x86_64&epoch=0&upstream=python3-module-pip-23.3.2-alt1.src.rpm
-python3-module-webencodings	0.5.1-g1	RPM	pkg:rpm/python3-module-webencodings@0.5.1-g1?arch=noarch&epoch=0&upstream=python3-module-webencodings-0.5.1-g1.src.rpm
-tree	2.0.2-g1	RPM	pkg:rpm/tree@2.0.2-g1?arch=x86_64&epoch=0&upstream=tree-2.0.2-g1.src.rpm
-vnstat	2.7-alt1	RPM	pkg:rpm/vnstat@2.7-alt1?arch=x86_64&epoch=0&upstream=vnstat-2.7-alt1.src.rpm
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.5.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "serialNumber": "urn:uuid:92544678-e536-4678-a908-012ab45465f7",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-06-04T09:46:53+00:00",
+    "tools": [
+      {
+        "vendor": "test",
+        "name": "test",
+        "version": "1.1"
+      }
+    ],
+    "component": {
+      "type": "application",
+      "name": "generated-sbom",
+      "version": "1.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/ansible-runner@2.4.0",
+      "name": "ansible-runner",
+      "version": "2.4.0",
+      "purl": "pkg:pypi/ansible-runner@2.4.0",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/deepdiff@4.3.2",
+      "name": "deepdiff",
+      "version": "4.3.2",
+      "purl": "pkg:pypi/deepdiff@4.3.2",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/docutils@0.21.2",
+      "name": "docutils",
+      "version": "0.21.2",
+      "purl": "pkg:pypi/docutils@0.21.2",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/importlib-metadata@6.2.1",
+      "name": "importlib-metadata",
+      "version": "6.2.1",
+      "purl": "pkg:pypi/importlib-metadata@6.2.1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/lockfile@0.12.2",
+      "name": "lockfile",
+      "version": "0.12.2",
+      "purl": "pkg:pypi/lockfile@0.12.2",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/ordered-set@4.1.0",
+      "name": "ordered-set",
+      "version": "4.1.0",
+      "purl": "pkg:pypi/ordered-set@4.1.0",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/packaging@24.1",
+      "name": "packaging",
+      "version": "24.1",
+      "purl": "pkg:pypi/packaging@24.1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/pexpect@4.9.0",
+      "name": "pexpect",
+      "version": "4.9.0",
+      "purl": "pkg:pypi/pexpect@4.9.0",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/ptyprocess@0.7.0",
+      "name": "ptyprocess",
+      "version": "0.7.0",
+      "purl": "pkg:pypi/ptyprocess@0.7.0",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/python-daemon@3.0.1",
+      "name": "python-daemon",
+      "version": "3.0.1",
+      "purl": "pkg:pypi/python-daemon@3.0.1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/setuptools@80.2.0.post20260507",
+      "name": "setuptools",
+      "version": "80.2.0.post20260507",
+      "purl": "pkg:pypi/setuptools@80.2.0.post20260507",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/xmltodict@1.0.2",
+      "name": "xmltodict",
+      "version": "1.0.2",
+      "purl": "pkg:pypi/xmltodict@1.0.2",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:pypi/zipp@3.20.2",
+      "name": "zipp",
+      "version": "3.20.2",
+      "purl": "pkg:pypi/zipp@3.20.2",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "PyPI"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/apt-repo-tools@0.8.0-alt1?arch=x86_64&epoch=0&upstream=apt-repo-tools-0.8.0-alt1.src.rpm",
+      "name": "apt-repo-tools",
+      "version": "0.8.0-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:altlinux:apt-repo-tools:0.8.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/axiomjdk-java21@21.0.7.0.0.12-1?arch=x86_64&epoch=3&upstream=axiomjdk-java21-21.0.7.0.0.12-1.src.rpm",
+      "name": "axiomjdk-java21",
+      "version": "21.0.7.0.0.12-1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:oracle:openjdk:21:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/bmon@4.0-alt1?arch=x86_64&epoch=0&upstream=bmon-4.0-alt1.src.rpm",
+      "name": "bmon",
+      "version": "4.0-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:bmon_project:bmon:4.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/elasticsearch@8.15.3-1?arch=x86_64&epoch=0&upstream=elasticsearch-8.15.3-1-src.rpm",
+      "name": "elasticsearch",
+      "version": "8.15.3-1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:elastic:elasticsearch:8.15.3:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/htop@3.0.5-alt1?arch=x86_64&epoch=0&upstream=htop-3.0.5-alt1.src.rpm",
+      "name": "htop",
+      "version": "3.0.5-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:htop:htop:3.0.5:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/libconfig@1.5-alt2?arch=x86_64&epoch=0&upstream=libconfig-1.5-alt2.src.rpm",
+      "name": "libconfig",
+      "version": "1.5-alt2",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:hyperrealm:libconfig:1.5:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/libconfuse@2.7-alt1.1?arch=x86_64&epoch=0&upstream=confuse-2.7-alt1.1.src.rpm",
+      "name": "libconfuse",
+      "version": "2.7-alt1.1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:libconfuse_project:libconfuse:2.7:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/libcups@2.4.19-alt1?arch=x86_64&epoch=0&upstream=cups-2.4.19-alt1.src.rpm",
+      "name": "libcups",
+      "version": "2.4.19-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:openprinting:cups:2.4.19:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/libdeflate@1.10-alt1?arch=x86_64&epoch=0&upstream=libdeflate-1.10-alt1.src.rpm",
+      "name": "libdeflate",
+      "version": "1.10-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:libdeflate_project:libdeflate:1.10:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/libexif@0.6.26-alt1?arch=x86_64&epoch=0&upstream=libexif-0.6.26-alt1.src.rpm",
+      "name": "libexif",
+      "version": "0.6.26-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:libexif_project:libexif:0.6.26:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/libibverbs@34.0-alt1?arch=x86_64&epoch=0&upstream=rdma-core-34.0-alt1.src.rpm",
+      "name": "libibverbs",
+      "version": "34.0-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:linux-rdma:rdma-core:34.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/libjemalloc2@5.3.0-alt2.1?arch=x86_64&epoch=0&upstream=libjemalloc2-5.3.0-alt2.1.src.rpm",
+      "name": "libjemalloc2",
+      "version": "5.3.0-alt2.1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:jemalloc:jemalloc:5.3.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/lighttpd@1.4.67-alt1?arch=x86_64&epoch=0&upstream=lighttpd-1.4.67-alt1.src.rpm",
+      "name": "lighttpd",
+      "version": "1.4.67-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:lighttpd:lighttpd:1.4.67:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/nano@8.0-alt1?arch=x86_64&epoch=0&upstream=nano-8.0-alt1.src.rpm",
+      "name": "nano",
+      "version": "8.0-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:gnu:nano:8.0:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/nethogs@0.8.5-alt1?arch=x86_64&epoch=0&upstream=nethogs-0.8.5-alt1.src.rpm",
+      "name": "nethogs",
+      "version": "0.8.5-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:nethogs_project:nethogs:0.8.5:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/nload@0.7.4-alt1?arch=x86_64&epoch=0&upstream=nload-0.7.4-alt1.src.rpm",
+      "name": "nload",
+      "version": "0.7.4-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:nload_project:nload:0.7.4:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/numactl@2.0.14-alt2?arch=x86_64&epoch=0&upstream=numactl-2.0.14-alt2.src.rpm",
+      "name": "numactl",
+      "version": "2.0.14-alt2",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:numactl_project:numactl:2.0.14:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/php8.3-readline@8.3.29-alt1?arch=x86_64&epoch=0&upstream=php8.3-readline-8.3.29-alt1.src.rpm",
+      "name": "php8.3-readline",
+      "version": "8.3.29-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        },
+        {
+          "name": "cpe.source",
+          "value": "nvd/upstream-normalized"
+        }
+      ],
+      "cpe": "cpe:2.3:a:php:php:8.3.29:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/python3-module-html5lib@1.0.1-g1?arch=noarch&epoch=0&upstream=python3-module-html5lib-1.0.1-g1.src.rpm",
+      "name": "python3-module-html5lib",
+      "version": "1.0.1-g1",
+      "purl": "pkg:rpm/python3-module-html5lib@1.0.1-g1?arch=noarch&epoch=0&upstream=python3-module-html5lib-1.0.1-g1.src.rpm",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/python3-module-lxml@4.9.3-alt1?arch=x86_64&epoch=0&upstream=python3-module-lxml-4.9.3-alt1.src.rpm",
+      "name": "python3-module-lxml",
+      "version": "4.9.3-alt1",
+      "purl": "pkg:rpm/python3-module-lxml@4.9.3-alt1?arch=x86_64&epoch=0&upstream=python3-module-lxml-4.9.3-alt1.src.rpm",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/python3-module-pip@23.3.2-alt1?arch=x86_64&epoch=0&upstream=python3-module-pip-23.3.2-alt1.src.rpm",
+      "name": "python3-module-pip",
+      "version": "23.3.2-alt1",
+      "purl": "pkg:rpm/python3-module-pip@23.3.2-alt1?arch=x86_64&epoch=0&upstream=python3-module-pip-23.3.2-alt1.src.rpm",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/python3-module-webencodings@0.5.1-g1?arch=noarch&epoch=0&upstream=python3-module-webencodings-0.5.1-g1.src.rpm",
+      "name": "python3-module-webencodings",
+      "version": "0.5.1-g1",
+      "purl": "pkg:rpm/python3-module-webencodings@0.5.1-g1?arch=noarch&epoch=0&upstream=python3-module-webencodings-0.5.1-g1.src.rpm",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/tree@2.0.2-g1?arch=x86_64&epoch=0&upstream=tree-2.0.2-g1.src.rpm",
+      "name": "tree",
+      "version": "2.0.2-g1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:old-man-programmer:tree:2.0.2:*:*:*:*:*:*:*"
+    },
+    {
+      "type": "library",
+      "bom-ref": "pkg:rpm/vnstat@2.7-alt1?arch=x86_64&epoch=0&upstream=vnstat-2.7-alt1.src.rpm",
+      "name": "vnstat",
+      "version": "2.7-alt1",
+      "properties": [
+        {
+          "name": "ecosystem",
+          "value": "RPM"
+        },
+        {
+          "name": "cpe.policy",
+          "value": "Python/PyPI and RPM python3-module-* package entries left without CPE and keep PURL; non-python RPM entries use CPE and omit PURL."
+        }
+      ],
+      "cpe": "cpe:2.3:a:humdi:vnstat:2.7:*:*:*:*:*:*:*"
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:pypi/ansible-runner@2.4.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/deepdiff@4.3.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/docutils@0.21.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/importlib-metadata@6.2.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/lockfile@0.12.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/ordered-set@4.1.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/packaging@24.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/pexpect@4.9.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/ptyprocess@0.7.0",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/python-daemon@3.0.1",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/setuptools@80.2.0.post20260507",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/xmltodict@1.0.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:pypi/zipp@3.20.2",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/apt-repo-tools@0.8.0-alt1?arch=x86_64&epoch=0&upstream=apt-repo-tools-0.8.0-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/axiomjdk-java21@21.0.7.0.0.12-1?arch=x86_64&epoch=3&upstream=axiomjdk-java21-21.0.7.0.0.12-1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/bmon@4.0-alt1?arch=x86_64&epoch=0&upstream=bmon-4.0-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/elasticsearch@8.15.3-1?arch=x86_64&epoch=0&upstream=elasticsearch-8.15.3-1-src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/htop@3.0.5-alt1?arch=x86_64&epoch=0&upstream=htop-3.0.5-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/libconfig@1.5-alt2?arch=x86_64&epoch=0&upstream=libconfig-1.5-alt2.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/libconfuse@2.7-alt1.1?arch=x86_64&epoch=0&upstream=confuse-2.7-alt1.1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/libcups@2.4.19-alt1?arch=x86_64&epoch=0&upstream=cups-2.4.19-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/libdeflate@1.10-alt1?arch=x86_64&epoch=0&upstream=libdeflate-1.10-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/libexif@0.6.26-alt1?arch=x86_64&epoch=0&upstream=libexif-0.6.26-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/libibverbs@34.0-alt1?arch=x86_64&epoch=0&upstream=rdma-core-34.0-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/libjemalloc2@5.3.0-alt2.1?arch=x86_64&epoch=0&upstream=libjemalloc2-5.3.0-alt2.1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/lighttpd@1.4.67-alt1?arch=x86_64&epoch=0&upstream=lighttpd-1.4.67-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/nano@8.0-alt1?arch=x86_64&epoch=0&upstream=nano-8.0-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/nethogs@0.8.5-alt1?arch=x86_64&epoch=0&upstream=nethogs-0.8.5-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/nload@0.7.4-alt1?arch=x86_64&epoch=0&upstream=nload-0.7.4-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/numactl@2.0.14-alt2?arch=x86_64&epoch=0&upstream=numactl-2.0.14-alt2.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/php8.3-readline@8.3.29-alt1?arch=x86_64&epoch=0&upstream=php8.3-readline-8.3.29-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/python3-module-html5lib@1.0.1-g1?arch=noarch&epoch=0&upstream=python3-module-html5lib-1.0.1-g1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/python3-module-lxml@4.9.3-alt1?arch=x86_64&epoch=0&upstream=python3-module-lxml-4.9.3-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/python3-module-pip@23.3.2-alt1?arch=x86_64&epoch=0&upstream=python3-module-pip-23.3.2-alt1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/python3-module-webencodings@0.5.1-g1?arch=noarch&epoch=0&upstream=python3-module-webencodings-0.5.1-g1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/tree@2.0.2-g1?arch=x86_64&epoch=0&upstream=tree-2.0.2-g1.src.rpm",
+      "dependsOn": []
+    },
+    {
+      "ref": "pkg:rpm/vnstat@2.7-alt1?arch=x86_64&epoch=0&upstream=vnstat-2.7-alt1.src.rpm",
+      "dependsOn": []
+    }
+  ]
+}
