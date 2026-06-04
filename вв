@@ -33,7 +33,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -50,7 +50,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -67,7 +67,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -84,7 +84,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -101,7 +101,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -118,7 +118,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -135,7 +135,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -152,7 +152,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -169,7 +169,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -186,7 +186,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -203,7 +203,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -220,7 +220,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -237,7 +237,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -253,7 +253,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:apt-repo-tools_project:apt-repo-tools:0.8.0:*:*:*:*:*:*:*"
@@ -270,7 +270,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:oracle:openjdk:21:*:*:*:*:*:*:*"
@@ -287,7 +287,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:bmon_project:bmon:4.0:*:*:*:*:*:*:*"
@@ -304,7 +304,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -325,7 +325,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -346,7 +346,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:hyperrealm:libconfig:1.5:*:*:*:*:*:*:*"
@@ -363,7 +363,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -384,7 +384,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -405,7 +405,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:libdeflate_project:libdeflate:1.10:*:*:*:*:*:*:*"
@@ -422,7 +422,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -443,7 +443,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:linux-rdma:rdma-core:34.0:*:*:*:*:*:*:*"
@@ -460,7 +460,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:jemalloc:jemalloc:5.3.0:*:*:*:*:*:*:*"
@@ -477,7 +477,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -498,7 +498,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -519,7 +519,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:nethogs_project:nethogs:0.8.5:*:*:*:*:*:*:*"
@@ -536,7 +536,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:nload_project:nload:0.7.4:*:*:*:*:*:*:*"
@@ -553,7 +553,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:numactl_project:numactl:2.0.14:*:*:*:*:*:*:*"
@@ -570,7 +570,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         },
         {
           "name": "cpe.source",
@@ -581,10 +581,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "pkg:rpm/python3-module-html5lib@1.0.1-g1?arch=noarch&epoch=0&upstream=python3-module-html5lib-1.0.1-g1.src.rpm",
+      "bom-ref": "pkg:pypi/html5lib@1.0.1",
       "name": "python3-module-html5lib",
       "version": "1.0.1-g1",
-      "purl": "pkg:rpm/python3-module-html5lib@1.0.1-g1?arch=noarch&epoch=0&upstream=python3-module-html5lib-1.0.1-g1.src.rpm",
+      "purl": "pkg:pypi/html5lib@1.0.1",
       "properties": [
         {
           "name": "ecosystem",
@@ -592,16 +592,16 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
     {
       "type": "library",
-      "bom-ref": "pkg:rpm/python3-module-lxml@4.9.3-alt1?arch=x86_64&epoch=0&upstream=python3-module-lxml-4.9.3-alt1.src.rpm",
+      "bom-ref": "pkg:pypi/lxml@4.9.3",
       "name": "python3-module-lxml",
       "version": "4.9.3-alt1",
-      "purl": "pkg:rpm/python3-module-lxml@4.9.3-alt1?arch=x86_64&epoch=0&upstream=python3-module-lxml-4.9.3-alt1.src.rpm",
+      "purl": "pkg:pypi/lxml@4.9.3",
       "properties": [
         {
           "name": "ecosystem",
@@ -609,16 +609,16 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
     {
       "type": "library",
-      "bom-ref": "pkg:rpm/python3-module-pip@23.3.2-alt1?arch=x86_64&epoch=0&upstream=python3-module-pip-23.3.2-alt1.src.rpm",
+      "bom-ref": "pkg:pypi/pip@23.3.2",
       "name": "python3-module-pip",
       "version": "23.3.2-alt1",
-      "purl": "pkg:rpm/python3-module-pip@23.3.2-alt1?arch=x86_64&epoch=0&upstream=python3-module-pip-23.3.2-alt1.src.rpm",
+      "purl": "pkg:pypi/pip@23.3.2",
       "properties": [
         {
           "name": "ecosystem",
@@ -626,16 +626,16 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
     {
       "type": "library",
-      "bom-ref": "pkg:rpm/python3-module-webencodings@0.5.1-g1?arch=noarch&epoch=0&upstream=python3-module-webencodings-0.5.1-g1.src.rpm",
+      "bom-ref": "pkg:pypi/webencodings@0.5.1",
       "name": "python3-module-webencodings",
       "version": "0.5.1-g1",
-      "purl": "pkg:rpm/python3-module-webencodings@0.5.1-g1?arch=noarch&epoch=0&upstream=python3-module-webencodings-0.5.1-g1.src.rpm",
+      "purl": "pkg:pypi/webencodings@0.5.1",
       "properties": [
         {
           "name": "ecosystem",
@@ -643,7 +643,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ]
     },
@@ -659,7 +659,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:old-man-programmer:tree:2.0.2:*:*:*:*:*:*:*"
@@ -676,7 +676,7 @@
         },
         {
           "name": "cpe.policy",
-          "value": "PyPI and RPM python3-module-* entries keep PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
+          "value": "PyPI entries and RPM python3-module-* entries use PyPI-format PURL and have no CPE; non-python RPM entries use CPE and omit PURL."
         }
       ],
       "cpe": "cpe:2.3:a:humdi:vnstat:2.7:*:*:*:*:*:*:*"
@@ -808,19 +808,19 @@
       "dependsOn": []
     },
     {
-      "ref": "pkg:rpm/python3-module-html5lib@1.0.1-g1?arch=noarch&epoch=0&upstream=python3-module-html5lib-1.0.1-g1.src.rpm",
+      "ref": "pkg:pypi/html5lib@1.0.1",
       "dependsOn": []
     },
     {
-      "ref": "pkg:rpm/python3-module-lxml@4.9.3-alt1?arch=x86_64&epoch=0&upstream=python3-module-lxml-4.9.3-alt1.src.rpm",
+      "ref": "pkg:pypi/lxml@4.9.3",
       "dependsOn": []
     },
     {
-      "ref": "pkg:rpm/python3-module-pip@23.3.2-alt1?arch=x86_64&epoch=0&upstream=python3-module-pip-23.3.2-alt1.src.rpm",
+      "ref": "pkg:pypi/pip@23.3.2",
       "dependsOn": []
     },
     {
-      "ref": "pkg:rpm/python3-module-webencodings@0.5.1-g1?arch=noarch&epoch=0&upstream=python3-module-webencodings-0.5.1-g1.src.rpm",
+      "ref": "pkg:pypi/webencodings@0.5.1",
       "dependsOn": []
     },
     {
